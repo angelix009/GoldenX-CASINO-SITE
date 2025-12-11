@@ -13,10 +13,10 @@ $gamesAll = round(\Auth::user()->win_games + \Auth::user()->lose_games);
 	<div style="margin-top: 20px" class="profile d-flex align-start flex-wrap">
 		<div class="profile__user d-flex flex-column align-center justify-center">
 			<div class="profile__top d-flex align-center justify-space-between">
-				<b>Профиль</b>
+				<b>Profile</b>
 				<a href="https://vk.com/id{{\Auth::user()->vk_id}}" target="_blank" class="d-flex align-center">
 					<svg class="icon small"><use xlink:href="images/symbols.svg#vk"></use></svg>
-					<span>Профиль</span>
+					<span>Profile</span>
 				</a>
 			</div>
 			<div class="profile__avatar d-flex justify-center align-center">
@@ -33,7 +33,7 @@ $gamesAll = round(\Auth::user()->win_games + \Auth::user()->lose_games);
 					<svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg>
 					<span>{{number_format(\Auth::user()->balance, 2, '.', ' ')}}</span>
 				</div>
-				<a href="#"  rel="popup" data-popup="popup--wallet" onclick="return false;" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>Пополнить</span></a>
+				<a href="#"  rel="popup" data-popup="popup--wallet" onclick="return false;" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>Top up</span></a>
 			</div>
 		</div>
 		<div class="profile__stats">
@@ -42,7 +42,7 @@ $gamesAll = round(\Auth::user()->win_games + \Auth::user()->lose_games);
 				<span>{{number_format(\Auth::user()->deps, 2, '.', ' ')}}</span>
 			</div>
 			<div class="profile__stat-item d-flex flex-column">
-				<b>Вывод</b>
+				<b>Withdraw</b>
 				<span>{{number_format(\Auth::user()->withdraws, 2, '.', ' ')}}</span>
 			</div>
 			<div class="profile__stat-item d-flex flex-column">
@@ -86,8 +86,8 @@ $gamesAll = round(\Auth::user()->win_games + \Auth::user()->lose_games);
 			</div> <br>
 			@if(\Auth::user()->admin == 1)
 			<div class="profile__stat-item d-flex flex-column" id="demoPanel"  style="@if(\Auth::user()->type_balance == 0) display: none; @endif">
-				<b>Пополнить демо баланс</b>
-				<a rel="popup" data-popup="popup--demo-add" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span style="font-size: 14px;">Пополнить</span></a>
+				<b>Top up демо баланс</b>
+				<a rel="popup" data-popup="popup--demo-add" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span style="font-size: 14px;">Top up</span></a>
 			</div>
 			@endif
 		</div>

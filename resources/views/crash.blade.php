@@ -20,14 +20,14 @@
                 </div>
                 <div class="bx-input d-flex flex-column">
                     <div class="bx-input__input d-flex align-center justify-space-between">
-                        <label class="d-flex align-center">Авто-стоп:</label>
+                        <label class="d-flex align-center">Auto-stop:</label>
                         <div class="d-flex align-center">
                             <input id="crashAuto" style="color: #fff; font-size: 16px;" type="text" value="2" placeholder="1.10">
                         </div>
                     </div>
                 </div>
                 <div class="bx-input d-flex flex-column">
-                    <a id="btnCrash" onclick="disable(this);crashBet(this)" class="btn btn--blue is-ripples flare d-flex align-center justify-center"><span>Начать игру</span></a>
+                    <a id="btnCrash" onclick="disable(this);crashBet(this)" class="btn btn--blue is-ripples flare d-flex align-center justify-center"><span>Start game</span></a>
                 </div>
                 
                 <div class="bx-input">
@@ -55,7 +55,7 @@
             <div class="crash__left d-flex flex-column">
 
                 <div class="bx-input d-flex flex-column">
-                    <a onclick="crashBoom()" class="btn btn--blue is-ripples flare d-flex align-center justify-center"><span>Взорвать</span></a>
+                    <a onclick="crashBoom()" class="btn btn--blue is-ripples flare d-flex align-center justify-center"><span>Explode</span></a>
                 </div>
                 
                 
@@ -63,7 +63,7 @@
             <div class="crash__right">
                 <div class="bx-input d-flex flex-column">
                     <div class="bx-input__input d-flex align-center justify-space-between">
-                     <label class="d-flex align-center">Икс:</label>
+                     <label class="d-flex align-center">X value:</label>
                      <div class="d-flex align-center">
                         <input id="crashIks" type="text" value="2.22" placeholder="1.10">
                     </div>
@@ -84,7 +84,7 @@
             }
             $.post('/crash/boom',info).then(e=>{
                 if(e.success){
-                    notification('success', 'Успешно')
+                    notification('success', 'Success')
                 }
                 if(e.error){
                     notification('error',e.error)
@@ -99,7 +99,7 @@
             }
             $.post('/crash/go',info).then(e=>{
                 if(e.success){
-                    notification('success', 'Успешно')
+                    notification('success', 'Success')
                 }
                 else{
                     notification('error',e.mess)
@@ -290,7 +290,7 @@
                      duration: e.start_time - 20,
                      easing: "linear",
                      step: function(val) {
-                       $('#btnCrash span').text('Забрать '+parseFloat(val).toFixed(2).toLocaleString());
+                       $('#btnCrash span').text('Collect '+parseFloat(val).toFixed(2).toLocaleString());
                    }
                });
 
@@ -300,7 +300,7 @@
 
 
                 }else{
-                    $('#btnCrash span').html('Ожидание игры...')
+                    $('#btnCrash span').html('Pending игры...')
                     disable('#btnCrash')
                 }
                 text = Number(e.text)
@@ -333,7 +333,7 @@
                 if (give == 1){
                     bet_user = 1;   
                     $('#btnCrash').attr('onclick', 'disable(this);crashGive(this)')
-                    $('#btnCrash span').html('Забрать 0.00')
+                    $('#btnCrash span').html('Collect 0.00')
                     $('#crashSum').val(e.bet)
                     $('#crashAuto').val(e.auto)
 
@@ -345,7 +345,7 @@
                 if (give == 2){
                     $('#crashSum').val(e.bet)
                     bet_user = 0;
-                    $('#btnCrash span').html('Ожидание игры...')
+                    $('#btnCrash span').html('Pending игры...')
                     disable('#btnCrash')
                     disable('#crashSum')    
                     disable('#crashAuto')   
@@ -423,7 +423,7 @@
 get()
 
 socket.on('crashClear',e=>{
-    $('#btnCrash span').html('Начать игру')
+    $('#btnCrash span').html('Start game')
 
     $('.crash__x-number').html('<span>00:10</span>')
     $('.crash__history-users').html('')
@@ -454,7 +454,7 @@ socket.on('crashDead',e=>{
     // myChart.update()
     $('.crash__x-number').css('color', "#ff5249")
     $('#btnCrash').attr('onclick', 'disable(this);crashBet(this)')
-    $('#btnCrash span').html('Начать игру')
+    $('#btnCrash span').html('Start game')
 
 
     undisable('#btnCrash')
@@ -489,7 +489,7 @@ socket.on('crashUpdate',e=>{
             if(crash_userId == USER_ID){ 
                 bet_user = 0;  
                 notification('success', 'Вы успешно забрали')          
-                $('#btnCrash').html('<span>Ожидание игры...</span>')
+                $('#btnCrash').html('<span>Pending игры...</span>')
                 disable('#btnCrash')
             }                     
             $('#game_crash_id_'+gameId).removeClass('crash__history-item-user--lose').addClass('crash__history-item-user--win')
@@ -519,7 +519,7 @@ socket.on('crashUpdate',e=>{
         if(e.user_id == USER_ID){
             bet_user = 0;  
             notification('success', 'Вы успешно забрали')          
-            $('#btnCrash').html('<span>Ожидание игры...</span>')
+            $('#btnCrash').html('<span>Pending игры...</span>')
             disable('#btnCrash')
         }                     
         $('#game_crash_id_'+e.game_id).removeClass('crash__history-item-user--lose').addClass('crash__history-item-user--win')
@@ -558,7 +558,7 @@ socket.on('crashGo',e=>{
 
 socket.on('crashNoty',e=>{                       
     if(e.user_id == USER_ID){
-        notification('success','Вы выиграли '+e.win.toFixed(2)+' монет')
+        notification('success','You won '+e.win.toFixed(2)+' монет')
         balanceUpdate(e.balanceLast, e.balanceNew)
     }
 })
@@ -566,7 +566,7 @@ socket.on('crashNoty',e=>{
 socket.on('crashFinish',e=>{
     e.arr_win.forEach((e)=>{
         // if(e.user_id == USER_ID){
-        //     notification('success','Вы выиграли '+e.win_user.toFixed(2)+' монет')
+        //     notification('success','You won '+e.win_user.toFixed(2)+' монет')
         // }
     })
     e.arr_lose.forEach((e)=>{

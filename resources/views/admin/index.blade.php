@@ -36,7 +36,7 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body">
-                                    <p class="text-muted fw-medium">Выводов</p>
+                                    <p class="text-muted fw-medium">Withdrawов</p>
                                     <h4 class="mb-0" id="withdraws">- ₽</h4>
                                 </div>
 
@@ -54,7 +54,7 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body">
-                                    <p class="text-muted fw-medium">Доход</p>
+                                    <p class="text-muted fw-medium">Доmove</p>
                                     <h4 class="mb-0" id="profit">- ₽</h4>
                                 </div>
 
@@ -77,7 +77,7 @@
             <div class="card">
                 <div class="card-body chartAdmin1">
                     <div class="d-sm-flex flex-wrap">
-                        <h4 class="card-title mb-4">Статистика</h4>
+                        <h4 class="card-title mb-4">Statistics</h4>
                         <div class="ms-auto">
                             <ul class="nav nav-pills stat-pills">
                                 <li class="nav-item">
@@ -103,7 +103,7 @@
              <div class="card">
                 <div class="card-body chartAdmin2">
                     <div class="d-sm-flex flex-wrap">
-                        <h4 class="card-title mb-4">Статистика профита</h4>
+                        <h4 class="card-title mb-4">Statistics профита</h4>
                     </div>
 
                     <div id="chart2" class="apex-charts" dir="ltr"></div>
@@ -125,9 +125,9 @@
                             <thead class="table-light">
                                 <tr>                                    
                                     <th class="align-middle">ID</th>
-                                    <th class="align-middle">Сумма</th>
-                                    <th class="align-middle">Дата</th>
-                                    <th class="align-middle">Статус</th>
+                                    <th class="align-middle">Amount</th>
+                                    <th class="align-middle">Date</th>
+                                    <th class="align-middle">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,7 +141,7 @@
                                         <td><a href="javascript: void(0);" class="text-body fw-bold">#{{$d->id}}</a> </td>
                                         <td>{{number_format($d->sum, 2, ',', ' ')}}</td>
                                         <td>{{$d->data}}</td>
-                                        <td>@if($d->status == 0) <span class="badge badge-pill badge-soft-warning font-size-11">Ожидание</span> @else <span class="badge badge-pill badge-soft-success font-size-11">Успешно</span> @endif</td>
+                                        <td>@if($d->status == 0) <span class="badge badge-pill badge-soft-warning font-size-11">Pending</span> @else <span class="badge badge-pill badge-soft-success font-size-11">Success</span> @endif</td>
                                         
                                     </tr>
                                 @endforeach

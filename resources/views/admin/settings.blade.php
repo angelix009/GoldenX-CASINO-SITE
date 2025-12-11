@@ -20,7 +20,7 @@ $setting = \App\Setting::first();
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body">
-				<h3>Настройки сайта</h3>
+				<h3>Settings сайта</h3>
 				<div class="row">
 					<div class="col-lg-3 mb-3">
 						<label>Название сайта</label>
@@ -59,15 +59,15 @@ $setting = \App\Setting::first();
 						<input type="" class="form-control" id="max_withdraw_bonus" value="{{$setting->max_withdraw_bonus}}" name="">
 					</div>
 					<div class="col-lg-3 mb-3">
-						<label>Депозит для перевода средств</label>
+						<label>Deposit для перевода средств</label>
 						<input type="" class="form-control" id="dep_transfer" value="{{$setting->dep_transfer}}" name="">
 					</div>
 					<div class="col-lg-3 mb-3">
-						<label>Депозит для создания промокода</label>
+						<label>Deposit для создания промокода</label>
 						<input type="" class="form-control" id="dep_createpromo" value="{{$setting->dep_createpromo}}" name="">
 					</div>
 					<div class="col-lg-3 mb-3">
-						<label>Тема сайта</label>
+						<label>Subject сайта</label>
 						<select class="form-select" id="theme">
                             <option value="0" @if($setting->theme == 0) selected="selected" @endif>Обычная</option>
                             <option value="1" @if($setting->theme == 1) selected="selected" @endif>Новогодняя</option>
@@ -80,7 +80,7 @@ $setting = \App\Setting::first();
 					</div>
 					<div class="col-lg">
 						<label>Действие</label>
-						<button onclick="saveSetting(1)" class="btn btn-info btn-block w-100">Сохранить</button>
+						<button onclick="saveSetting(1)" class="btn btn-info btn-block w-100">Save</button>
 					</div>
 				</div>
 			</div>
@@ -90,7 +90,7 @@ $setting = \App\Setting::first();
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body">
-				<h3>Настройки платежной системы FreeKassa</h3>
+				<h3>Settings платежной системы FreeKassa</h3>
 				<div class="row">
 					<div class="col-lg-3 mb-3">
 						<label>FK ID</label>
@@ -106,7 +106,7 @@ $setting = \App\Setting::first();
 					</div>
 					<div class="col-lg">
 						<label>Действие</label>
-						<button onclick="saveSetting(2)" class="btn btn-info btn-block w-100">Сохранить</button>
+						<button onclick="saveSetting(2)" class="btn btn-info btn-block w-100">Save</button>
 					</div>
 				</div>
 			</div>
@@ -116,7 +116,7 @@ $setting = \App\Setting::first();
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body">
-				<h3>Настройки платежной системы Piastrix</h3>
+				<h3>Settings платежной системы Piastrix</h3>
 				<div class="row">
 					<div class="col-lg-3 mb-3">
 						<label>Piastix ID</label>
@@ -129,7 +129,7 @@ $setting = \App\Setting::first();
 					
 					<div class="col-lg">
 						<label>Действие</label>
-						<button onclick="saveSetting(3)" class="btn btn-info btn-block w-100">Сохранить</button>
+						<button onclick="saveSetting(3)" class="btn btn-info btn-block w-100">Save</button>
 					</div>
 				</div>
 			</div>
@@ -139,7 +139,7 @@ $setting = \App\Setting::first();
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body">
-				<h3>Настройки платежной системы Primepayments</h3>
+				<h3>Settings платежной системы Primepayments</h3>
 				<div class="row">
 					<div class="col-lg-3 mb-3">
 						<label>ID проекта</label>
@@ -155,7 +155,7 @@ $setting = \App\Setting::first();
 					</div>
 					<div class="col-lg">
 						<label>Действие</label>
-						<button onclick="saveSetting(4)" class="btn btn-info btn-block w-100">Сохранить</button>
+						<button onclick="saveSetting(4)" class="btn btn-info btn-block w-100">Save</button>
 					</div>
 				</div>
 			</div>
@@ -165,7 +165,7 @@ $setting = \App\Setting::first();
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body">
-				<h3>Настройки платежной системы Linepay</h3>
+				<h3>Settings платежной системы Linepay</h3>
 				<div class="row">
 					<div class="col-lg-3 mb-3">
 						<label>ID проекта</label>
@@ -181,7 +181,7 @@ $setting = \App\Setting::first();
 					</div>
 					<div class="col-lg">
 						<label>Действие</label>
-						<button onclick="saveSetting(5)" class="btn btn-info btn-block w-100">Сохранить</button>
+						<button onclick="saveSetting(5)" class="btn btn-info btn-block w-100">Save</button>
 					</div>
 
 
@@ -193,7 +193,7 @@ $setting = \App\Setting::first();
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body">
-				<h3>Настройки платежной системы Paypaylych</h3>
+				<h3>Settings платежной системы Paypaylych</h3>
 				<div class="row">
 					<div class="col-lg-3 mb-3">
 						<label>ID проекта</label>
@@ -205,7 +205,7 @@ $setting = \App\Setting::first();
 					</div>
 					<div class="col-lg">
 						<label>Действие</label>
-						<button onclick="saveSetting(6)" class="btn btn-info btn-block w-100">Сохранить</button>
+						<button onclick="saveSetting(6)" class="btn btn-info btn-block w-100">Save</button>
 					</div>
 
 
@@ -217,7 +217,7 @@ $setting = \App\Setting::first();
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body">
-				<h3>Настройки платежной системы AezaPay</h3>
+				<h3>Settings платежной системы AezaPay</h3>
 				<div class="row">
 					<div class="col-lg-3 mb-3">
 						<label>ID проекта</label>
@@ -229,7 +229,7 @@ $setting = \App\Setting::first();
 					</div>
 					<div class="col-lg">
 						<label>Действие</label>
-						<button onclick="saveSetting(7)" class="btn btn-info btn-block w-100">Сохранить</button>
+						<button onclick="saveSetting(7)" class="btn btn-info btn-block w-100">Save</button>
 					</div>
 
 

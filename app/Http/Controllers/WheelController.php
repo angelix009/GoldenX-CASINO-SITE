@@ -244,7 +244,7 @@ if($wheel_win == 'false' and $resultat == 'bonus'){
 
         if (!in_array($color, $arr))
         {
-            return response(['success' => false, 'mess' => 'Ошибка']);
+            return response(['success' => false, 'mess' => 'Error']);
         }
 
         if (!$set->status_wheel)
@@ -319,7 +319,7 @@ if($wheel_win == 'false' and $resultat == 'bonus'){
             $user->save(); 
 
             
-            $this->redis->publish('updateBalance', json_encode($callback)); 
+            if($this->redis) $this->redis->publish('updateBalance', json_encode($callback)); 
 
 
 
@@ -337,13 +337,13 @@ if($wheel_win == 'false' and $resultat == 'bonus'){
     }
     public function bet(Request $r)
     {
-        //return response(['error' => 'Произошла неизвестная ошибка. Обновите страницу']);
+        //return response(['error' => 'An unknown error occurred. Обновите страницу']);
         $coff = $r->coff;
         $bet = round($r->bet, 2);
 
         $user = Auth::user();
         if($user->ban == 1){
-            return response(['error' => 'Произошла неизвестная ошибка']);
+            return response(['error' => 'An unknown error occurred']);
         }
         $setting = Setting::first();
         if($user->admin != 1){
@@ -354,7 +354,7 @@ if($wheel_win == 'false' and $resultat == 'bonus'){
             return response(['error' => 'Ставки закрыты, ждите следующий раунд']);
         }
 
-        if (\Cache::has('action.user.' . $user->id)) return response(['error' => 'Подождите 1 сек.']);
+        if (\Cache::has('action.user.' . $user->id)) return response(['error' => 'Wait 1 sec.']);
         \Cache::put('action.user.' . $user->id, '', 1);
 
         $balance = $user->balance;
@@ -395,7 +395,7 @@ if($wheel_win == 'false' and $resultat == 'bonus'){
 
         if ($bet > $userBalance)
         {
-            return response(['error' => 'Недостаточно средств']);
+            return response(['error' => 'Insufficient funds']);
         }
 
         $auto_wheel = $setting->auto_wheel;
@@ -455,7 +455,7 @@ if($wheel_win == 'false' and $resultat == 'bonus'){
             $info = Wheel::where(['coff' => $coff])->get();
             $callback = ['data' => ['user_id' => $user->id, 'coff' => $coff, 'img' => $user->avatar, 'login' => $user->name, 'bet' => round($bet, 2), 'players' => collect($info)->unique('user_id')
         ->count() , 'sumBets' => $info->sum('bet')]];
-            $this->redis->publish('wheelBet', json_encode($callback));
+            if($this->redis) $this->redis->publish('wheelBet', json_encode($callback));
         }else{
 
             $x30 = Wheel::where(['user_id' => $user->id, 'coff' => $coff])->first();
@@ -464,7 +464,7 @@ if($wheel_win == 'false' and $resultat == 'bonus'){
             $info = Wheel::where(['coff' => $coff])->get();
             $callback = ['data' => ['user_id' => $user->id, 'coff' => $coff, 'img' => $user->avatar, 'login' => $user->name, 'bet' => round($x30->bet, 2), 'players' => collect($info)->unique('user_id')
         ->count() , 'sumBets' => $info->sum('bet')]];
-            $this->redis->publish('updateWheelBet', json_encode($callback));
+            if($this->redis) $this->redis->publish('updateWheelBet', json_encode($callback));
         }
 
 

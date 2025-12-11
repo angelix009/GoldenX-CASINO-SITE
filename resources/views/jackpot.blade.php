@@ -75,7 +75,7 @@
                              <img src="img/peoples.svg" class="imgJ">
                              <div class="infoJ">
                                 <span class="number_infoJ usersCount">0</span>
-                                <div class="text_infoJ">Игроков</div>
+                                <div class="text_infoJ">Playerов</div>
                             </div> 
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                          <!-- <img src="img/coinsBlack.svg" class="imgJ"> -->
                          <div class="infoJ">
                             <span class="number_infoJ bankGame">0</span>
-                            <div class="text_infoJ">Банк</div>
+                            <div class="text_infoJ">Bank</div>
                         </div>
                     </div> 
                 </div>     
@@ -147,7 +147,7 @@
               <!-- <img src="img/peoples.svg" class="imgJ d-comp"> -->
               <div class="infoJ">
                  <span class="number_infoJ usersCount">0</span>
-                 <div class="text_infoJ">Игроков</div>
+                 <div class="text_infoJ">Playerов</div>
              </div>
          </div>
      </div>
@@ -157,7 +157,7 @@
           <!-- <img src="img/coinsBlack.svg" class="imgJ d-comp"> -->
           <div class="infoJ">
              <span class="number_infoJ bankGame" >0</span>
-             <div class="text_infoJ">Банк</div>
+             <div class="text_infoJ">Bank</div>
          </div>
      </div>
  </div>
@@ -165,7 +165,7 @@
    <div class="block_jackpot_info_game">
       <div class="infoJ">
          <span class="number_infoJ chanceUser">0%</span>
-         <div class="text_infoJ">Шанс</div>
+         <div class="text_infoJ">Chance</div>
      </div>
  </div>
 </div>
@@ -191,7 +191,7 @@
         <div class="flex no_padding wrap">
             <div class="col-4 col-m-5 " style="text-align:left" >
                 <img src="https://sun9-3.userapi.com/impg/5GJzDw1lCKU1uagIMdaGF9YxI4j2yWVyt_elqw/Q0mcE10I1EA.jpg?size=50x50&quality=96&sign=2360c3b5e82e78ab0f12559a7201f398&type=album" class="betJackpotAva img_no_blur">
-                <div class="betUser">   <span class="nameBetUser" style="font-weight:bold;color:#F68D44">ВЫИГРАЛ</span>   
+                <div class="betUser">   <span class="nameBetUser" style="font-weight:bold;color:#F68D44">ВЫGAMEЛ</span>   
                     <div class="sumBetUser" style="font-weight:bold;"><span style="color: #706bf6" id="sw_win"></span></div>
                 </div>
             </div> 
@@ -254,11 +254,11 @@
 
 
    </svg>
-   <span class="text-secondary" style="margin-top: 10px;display: block;">Ожидание ставок...</span>
+   <span class="text-secondary" style="margin-top: 10px;display: block;">Pending ставок...</span>
 </center>
 
 </div>
-<button class="btn-dep w-100" style="margin-top: 25px" onclick="getHistoryJackpot();show_modal('history_jackpot')">История игр</button>
+<button class="btn-dep w-100" style="margin-top: 25px" onclick="getHistoryJackpot();show_modal('history_jackpot')">History игр</button>
 </div>
 
 

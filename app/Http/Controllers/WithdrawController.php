@@ -20,7 +20,7 @@ class WithdrawController extends Controller
     }
 
     public function go(Request $r){
-        //return response(['error' => 'Произошла неизвестная ошибка. Обновите страницу']);
+        //return response(['error' => 'An unknown error occurred. Обновите страницу']);
         $sum = $r->sum;
         $wallet = $r->wallet;
         $system = $r->system;
@@ -30,7 +30,7 @@ class WithdrawController extends Controller
             return response(['success' => false, 'mess' => 'Введите корректно сумму вывода']);
         }
 
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -76,7 +76,7 @@ class WithdrawController extends Controller
         }
 
         if($user->balance < $sum){
-            return response(['success' => false, 'mess' => 'Недостаточно средств']);
+            return response(['success' => false, 'mess' => 'Insufficient funds']);
         }
 
         $setting = Setting::first();
@@ -175,7 +175,7 @@ class WithdrawController extends Controller
 
     public function cansel(Request $r){
         $id = $r->id;
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -187,13 +187,13 @@ class WithdrawController extends Controller
         $info = Withdraw::where('id', $id)->first();
         $user_id = $info->user_id;
         if($user_id != $user->id){
-            return response(['success' => false, 'mess' => 'Ошибка']);
+            return response(['success' => false, 'mess' => 'Error']);
         }
         if(in_array($info->status, [3,4,5])){
              return response(['success' => false, 'mess' => 'Выш вывод отправляется. Отменить нельзя']);
         }
         if($info->status != 0){
-             return response(['success' => false, 'mess' => 'Ошибка']);
+             return response(['success' => false, 'mess' => 'Error']);
         }
         
         if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Подождите 2 сек.']);

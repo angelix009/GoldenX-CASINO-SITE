@@ -92,7 +92,7 @@ class AdminController extends Controller
 
         // \App\Jobs\UpdateTournier::dispatch(['id' => $tournier->id, 'type' => 2])->delay(now()->addSeconds($time_go_end));
 
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
 
     }
 
@@ -112,14 +112,14 @@ class AdminController extends Controller
             'color' => $r->color
         ));
 
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
 
     }
 
     public function deleteSystemWithdraw(Request $r){
         $id = $r->id;
         SystemWithdraw::where('id', $id)->delete();
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
     }
 
     public function saveSystemWithdraw(Request $r){
@@ -134,7 +134,7 @@ class AdminController extends Controller
         $systemwithdraw->color = $r->color;
         $systemwithdraw->save();
 
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
 
 
     }
@@ -158,13 +158,13 @@ class AdminController extends Controller
             'color' => $r->color
         ));
 
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
     }
 
     public function deleteSystemDeposit(Request $r){
         $id = $r->id;
         SystemDep::where('id', $id)->delete();
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
     }
 
 
@@ -190,7 +190,7 @@ class AdminController extends Controller
         $systemdep->sort = $r->sort;
         $systemdep->save();
 
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
     }
 
 
@@ -255,7 +255,7 @@ class AdminController extends Controller
             $user->balance += $sum_full;
             $user->save();
         }
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
 
     }
 
@@ -296,7 +296,7 @@ class AdminController extends Controller
 
         $setting->save();
 
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        return response(['success' => true, 'mess' => 'Success' ]);
 
 
     }
@@ -357,15 +357,15 @@ class AdminController extends Controller
         
         $setting->save();
 
-        return response()->json(['success' => true, 'mess' => 'Успешно' ], 200);
+        return response()->json(['success' => true, 'mess' => 'Success' ], 200);
     }
 
 
     public function deleteDepPromo(Request $r){
-        if(\Auth::user()->admin == 2) return response()->json(['message' => 'Ошибка'], 401);
+        if(\Auth::user()->admin == 2) return response()->json(['message' => 'Error'], 401);
         $id = $r->id;
         DepPromo::where('id', $id)->delete();
-        return response()->json(['success' => true, 'mess' => 'Успешно' ], 200);
+        return response()->json(['success' => true, 'mess' => 'Success' ], 200);
     }
 
 
@@ -406,11 +406,11 @@ class AdminController extends Controller
             'user_name' => $user->name
         ));
 
-        return response()->json(['success' => true, 'mess' => 'Успешно' ], 200);
+        return response()->json(['success' => true, 'mess' => 'Success' ], 200);
     }
 
     public function deletePromo(Request $r){
-        if(\Auth::user()->admin == 2) return response()->json(['message' => 'Ошибка'], 401);
+        if(\Auth::user()->admin == 2) return response()->json(['message' => 'Error'], 401);
         $id = $r->id;
         $promo = Promo::where('id', $id)->first();
         $name = $promo->name;
@@ -418,7 +418,7 @@ class AdminController extends Controller
         Promo::where('id', $id)->delete();
         \Cache::put('promo.name.'.$name, '', 0);
 
-        return response()->json(['success' => true, 'mess' => 'Успешно' ], 200);
+        return response()->json(['success' => true, 'mess' => 'Success' ], 200);
     }
 
     public function createPromo(Request $r){
@@ -457,7 +457,7 @@ class AdminController extends Controller
         \Cache::put('promo.name.'.$name.'.active.count', 0);
         \Cache::put('promo.name.'.$name.'.sum', $sum);
 
-        return response()->json(['success' => true, 'mess' => 'Успешно' ], 200);
+        return response()->json(['success' => true, 'mess' => 'Success' ], 200);
     }
 
     public function changeBan(Request $request)
@@ -749,7 +749,7 @@ public function giveBonusMines(Request $r){
     $user->bonusMine = 1;
     $user->save();
 
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 }
 
 public function giveBonusShoot(Request $r){
@@ -759,7 +759,7 @@ public function giveBonusShoot(Request $r){
     $user->shootDrop = $drop;
     $user->save();
 
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 
 }
 
@@ -769,7 +769,7 @@ public function giveBonusCoin(Request $r){
     $user->bonusCoin = 1;
     $user->save();
 
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 }
 
 
@@ -786,7 +786,7 @@ public function editStatus(Request $r){
     $st->bonus = $bonus;
     $st->deposit = $deposit;
     $st->save();
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 }
 
 public function editRepost(Request $r){
@@ -800,7 +800,7 @@ public function editRepost(Request $r){
     $st->repost_to = $repost_to;
     $st->bonus = $bonus;
     $st->save();
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 }
 
 public function addRandom(Request $r){
@@ -814,7 +814,7 @@ public function addRandom(Request $r){
         'name_key' => $name_key
     ));
 
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 
 }
 
@@ -835,7 +835,7 @@ public function addStatus(Request $r){
         'name' => $name
     ));
 
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 
 }
 
@@ -853,7 +853,7 @@ public function addRepost(Request $r){
         'color' => $color
     ));
 
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 }
 
 
@@ -886,7 +886,7 @@ public function infoUser(Request $r){
 //     $user->name = $r->name;
 //     $user->avatar = $r->avatar;
 //     $user->save();
-//     return response(['success' => true,'type'=> 'success', 'mess' => "Успешно" ]);
+//     return response(['success' => true,'type'=> 'success', 'mess' => "Success" ]);
 
 // }
 
@@ -905,7 +905,7 @@ public function updateAuto(Request $r){
     }
     $setting->save();
 
-    return response(['success' => true,'type'=> 'success', 'mess' => "Успешно" ]);
+    return response(['success' => true,'type'=> 'success', 'mess' => "Success" ]);
 }
 
 public function loadUser(Request $r){
@@ -1054,13 +1054,13 @@ public function infoPromo(Request $r){
 public function deleteStatus(Request $r){
     $id = $r->id;
     Status::where('id', $id)->delete();
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 }
 
 public function deleteRepost(Request $r){
     $id = $r->id;
     Repost::where('id', $id)->delete();
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 }
 
 
@@ -1077,7 +1077,7 @@ public function saveBan(Request $r){
     $user->ban = $type;
     $user->why_ban = $why;
     $user->save();
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    return response(['success' => true, 'mess' => 'Success' ]);
 
 }
 

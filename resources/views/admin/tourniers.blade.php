@@ -47,26 +47,26 @@
 					<div class="col-lg-12">
 						<div class="row" id="places_input_t">
 							<div class="col-lg-3 mb-3">
-								<label>Приз за 1 место</label>
+								<label>Prize за 1 место</label>
 								<input type="" id="place_1_t" value="500" class="form-control" name="">
 							</div>
 							<div class="col-lg-3 mb-3">
-								<label>Приз за 2 место</label>
+								<label>Prize за 2 место</label>
 								<input type="" id="place_2_t" value="300" class="form-control" name="">
 							</div>
 							<div class="col-lg-3 mb-3">
-								<label>Приз за 3 место</label>
+								<label>Prize за 3 место</label>
 								<input type="" id="place_3_t" value="200" class="form-control" name="">
 							</div>
 						</div>
 					</div>				
 					<div class="col-lg-9 mb-3">
-						<label>Описание</label>
-						<textarea type="" id="desc_t" class="form-control" name="">Турнир по режиму Mines. Чем больше сумма общих выигрышей у вас будет на момент конца турнира, тем выше будет ваш приз.</textarea>
+						<label>Description</label>
+						<textarea type="" id="desc_t" class="form-control" name="">Tournament по режиму Mines. Чем больше сумма общих выигрышей у вас будет на момент конца турнира, тем выше будет ваш приз.</textarea>
 					</div>
 					<div class="col-lg-3 mb-3">
 						<label>Действие</label>
-						<button onclick="createTournier()" class="btn btn-info btn-block w-100">Создать турнир</button>
+						<button onclick="createTournier()" class="btn btn-info btn-block w-100">Create турнир</button>
 					</div>
 				</div>
 			</div>
@@ -84,7 +84,7 @@
 								<th scope="col">#</th>
 								<th scope="col">Название</th>
 								<th scope="col">Победителей</th>
-								<th scope="col">Призы</th>
+								<th scope="col">Prizeы</th>
 								<th scope="col">Начало</th>
 								<th scope="col">Конец</th>
 								<th scope="col">Игра</th>
@@ -103,7 +103,7 @@
 								<td>{{date('d.m.Y в h:i:s',$t->end)}}</td>
 								<td>{{$t->game}}</td>
 								
-								<th scope="col"><button onclick="deleteTournier({{$t->id}})" class="btn btn-danger btn-sm">Удалить</button></th>
+								<th scope="col"><button onclick="deleteTournier({{$t->id}})" class="btn btn-danger btn-sm">Delete</button></th>
 								
 							</tr>
 							@endforeach

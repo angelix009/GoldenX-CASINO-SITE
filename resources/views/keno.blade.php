@@ -9,13 +9,13 @@
             <div class="keno__round-info d-flex justify-space-between align-center">
                 <div class="keno__round-info-item d-flex">
                     <div class="d-flex flex-column ">
-                        <span>Банк игры</span>
+                        <span>Bank игры</span>
                         <b><b class="bankKeno"></b> <svg class="icon" style="width: 18px; height: 18px;"><use xlink:href="images/symbols.svg#coins"></use></svg></b>
                     </div>
                     
 
                     <div class="d-flex flex-column " style="margin-left: 20px;">
-                        <span>Игроков</span>
+                        <span>Playerов</span>
                         <b><b class="usersKeno"></b> <svg class="icon" style="width: 18px; height: 18px;"><use xlink:href="images/symbols.svg#users"></use></svg></b>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                         </a>
                         <a href="#" class="keno__auto-select d-flex align-center" onclick="disable(this);autoKeno(this)">
                             <svg style="height: 13px;width: 13px;" class="icon"><use xlink:href="images/symbols.svg#auto"></use></svg>
-                            <span>Авто-выбор</span>
+                            <span>Auto-выбор</span>
                         </a>
                     </div>
                     <div class="keno__bet-right d-flex align-center">
@@ -93,8 +93,8 @@
     <table>
         <thead>
             <tr>
-                <td>Игрок</td>
-                <td>Ставка</td>
+                <td>Player</td>
+                <td>Bet</td>
                 <td>Номера</td>
                 <td>Макс вин</td>
             </tr>

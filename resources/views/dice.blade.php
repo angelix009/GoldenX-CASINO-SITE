@@ -4,7 +4,7 @@
 		<!-- <div class="dice__chance">
 				<div class="dice__select-chance d-flex align-center justify-space-between">
 					<a class="dice__type--active">Ручные ставки</a>
-					<a>Авто ставки</a>
+					<a>Auto ставки</a>
 					<a>Турбо ставки</a>
 				</div> 
 			</div> -->
@@ -173,8 +173,8 @@
 			<div class="dice__chance">
 				<input type="range" oninput="diceRange()" class="dice__range" value="50">
 				<div class="dice__select-chance d-flex align-center justify-space-between">
-					<a  class="active btn_min_change" onclick="changeDice('minPlay', this)">Меньше</a>
-					<a  onclick="changeDice('maxPlay', this)">Больше</a>
+					<a  class="active btn_min_change" onclick="changeDice('minPlay', this)">Less</a>
+					<a  onclick="changeDice('maxPlay', this)">More</a>
 				</div> 
 			</div>
 			
@@ -202,7 +202,7 @@
 			</div>
 			<div class="dice__win">
 				<div class="bx-input__input d-flex align-center justify-space-between">
-					<label class="d-flex align-center">Выигрыш:</label>
+					<label class="d-flex align-center">Win:</label>
 					<div class="d-flex align-center">
 						<input readonly style="cursor: default;" type="text" value="2.00" onkeyup="updateDiceWin()" id="WinDice">
 						<svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg>
@@ -210,9 +210,9 @@
 				</div>
 			</div>
 			<div class="dice__play d-flex justify-center align-center" style="grid-column: 1 / 4;">
-				<a  class="btn is-ripples flare btn--blue d-flex align-center" onclick="disable(this);playDice(this)" id="dice__play"><span>Крутить</span></a>
+				<a  class="btn is-ripples flare btn--blue d-flex align-center" onclick="disable(this);playDice(this)" id="dice__play"><span>Spin</span></a>
 				
-				<a  class="btn is-ripples flare btn--red d-flex align-center" onclick="newGame(this)" id="dice__replay" style="display: none;" ><span>Играть ещё раз</span></a>
+				<a  class="btn is-ripples flare btn--red d-flex align-center" onclick="newGame(this)" id="dice__replay" style="display: none;" ><span>Play ещё раз</span></a>
 			</div>
 
 		</div>

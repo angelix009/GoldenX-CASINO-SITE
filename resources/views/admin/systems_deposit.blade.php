@@ -23,7 +23,7 @@
                         <input type="" id="min_sum" class="form-control" name="">
                     </div>
                     <div class="col-lg-2 mb-2">
-                        <label>Комиссия</label>
+                        <label>Commission</label>
                         <input type="" id="comm_percent" class="form-control" name="">
                     </div>
                     <div class="col-lg-2 mb-2">
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-lg-2 mb-2">
                         <label>Действие</label>
-                        <button onclick="addSystemDeposit()" class="btn btn-info btn-block w-100">Добавить</button>
+                        <button onclick="addSystemDeposit()" class="btn btn-info btn-block w-100">Add</button>
                     </div>
                 </div>
             </div>
@@ -68,12 +68,12 @@
                             <tr>
                                 <th scope="col">Название</th>
                                 <th scope="col">Мин. сумма</th>
-                                <th scope="col">Комиссия</th>
+                                <th scope="col">Commission</th>
                                 <th scope="col">Изображение</th>
                                 <th scope="col">Цвет</th>
                                 <th scope="col">Cистема</th>
                                 <th scope="col">Номер системы</th>
-                                <th scope="col">Статус</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Сорт</th>
                                 <th scope="col">Действие</th>
                             </tr>
@@ -108,7 +108,7 @@
                                     <input type="" class="form-control systemDeposit_sort" name="" value="{{$s->sort}}">
                                 </th>
                                 
-                                <th scope="col"><button onclick="saveSystemDeposit({{$s->id}})" class="btn btn-info btn-sm me-2 mb-2">Сохранить</button><button onclick="deleteSystemDeposit({{$s->id}})" class="btn btn-danger btn-sm">Удалить</button></th>
+                                <th scope="col"><button onclick="saveSystemDeposit({{$s->id}})" class="btn btn-info btn-sm me-2 mb-2">Save</button><button onclick="deleteSystemDeposit({{$s->id}})" class="btn btn-danger btn-sm">Delete</button></th>
                             </tr>
                             @endforeach
 

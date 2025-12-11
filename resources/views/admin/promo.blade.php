@@ -21,7 +21,7 @@
 						<input type="" id="name_promo" class="form-control" name="">
 					</div>
 					<div class="col-lg-3">
-						<label>Сумма</label>
+						<label>Amount</label>
 						<input type="" id="sum_promo" class="form-control" name="">
 					</div>
 					<div class="col-lg-3">
@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-lg-3">
 						<label>Дейсвтие</label>
-						<button onclick="createPromo()" class="btn btn-info btn-block w-100">Создать промокод</button>
+						<button onclick="createPromo()" class="btn btn-info btn-block w-100">Create промокод</button>
 					</div>
 				</div>
 			</div>
@@ -48,9 +48,9 @@
 								<th scope="col">#</th>
 								<th scope="col">Создатель</th>
 								<th scope="col">Название</th>
-								<th scope="col">Сумма</th>
+								<th scope="col">Amount</th>
 								<th scope="col">Активаций</th>
-								<th scope="col">Дата</th>
+								<th scope="col">Date</th>
 								<th scope="col">Действия</th>
 							</tr>
 						</thead>
@@ -68,7 +68,7 @@
 								<td>{{number_format($sum, 2, ',', ' ')}}</td>
 								<th scope="row">{{$actived}} / {{$active}}</th>
 								<td>{{date('d.m.y в H:i:s', strtotime($p->created_at))}}</td>
-								<th scope="col"><button onclick="deletePromo({{$p->id}})" class="btn btn-danger btn-sm">Удалить</button></th>
+								<th scope="col"><button onclick="deletePromo({{$p->id}})" class="btn btn-danger btn-sm">Delete</button></th>
 								
 							</tr>
 							@endforeach

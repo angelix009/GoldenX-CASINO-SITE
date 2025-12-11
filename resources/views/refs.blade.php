@@ -4,7 +4,7 @@
                     <div class="bonus__top">
                         <div class="bonus__items">
                             <div class="bonus__item bonus__item--block bonus__item--reposts">
-                                <div class="bonus__item-title"><span>Партнерка</span></div>
+                                <div class="bonus__item-title"><span>Partners</span></div>
                                 <div class="bonus__content d-flex justify-space-between align-center">
                                     <div class="bx-input__input d-flex align-center justify-space-between"  style="width: 81%;">
                                         <label class="d-flex align-center">Реф. ссылка:</label>
@@ -13,7 +13,7 @@
                                         </div>
                                     </div>
                                     <div class="bonus__buttons d-flex align-center">
-                                        <a href="#" onclick="copy('ref_link')" class="btn btnCopy btn--blue is-ripples flare d-flex align-center"><span>Скопировать</span></a>
+                                        <a href="#" onclick="copy('ref_link')" class="btn btnCopy btn--blue is-ripples flare d-flex align-center"><span>Copy</span></a>
                                     </div>
                                 </div>
                                 <div class="refferal__stats d-flex align-center justify-space-between">

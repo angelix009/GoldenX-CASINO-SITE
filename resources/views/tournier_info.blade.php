@@ -32,11 +32,11 @@ $end = date("d.m H:i", $t->end);
                     </div>
                     <div class="tournier__item-bottom">
                         <div class="tournier__stat d-flex flex-column align-center">
-                            <h3>Призовой фонд</h3>
+                            <h3>Prizeовой фонд</h3>
                             <b>{{$t->prize}}</b>
                         </div>
                         <div class="tournier__stat d-flex flex-column align-center">
-                            <h3>Призовых мест</h3>
+                            <h3>Prizeовых мест</h3>
                             <b>{{$t->places}}</b>
                         </div>
                         <div class="tournier__stat d-flex flex-column align-center">
@@ -56,10 +56,10 @@ $end = date("d.m H:i", $t->end);
                 <table>
                     <thead>
                         <tr>
-                            <td>Место</td>
+                            <td>Place</td>
                             <td>Участник</td>
                             <td>Общий выигрыш</td>
-                            <td>Приз</td>
+                            <td>Prize</td>
                         </tr>
                     </thead>
                     <tbody>

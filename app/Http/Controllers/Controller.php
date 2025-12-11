@@ -29,15 +29,15 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $this->redis = Redis::connection();
-        
+        $this->redis = null; // Redis disabled - install redis-server to enable
+
         $this->middleware(function ($request, $next) {
             $this->user = Auth::user();
             view()->share('u', $this->user);
             return $next($request);
         });
 
-        Carbon::setLocale('ru');
+        Carbon::setLocale('en');
     }
 
     public function testPublishInGroup(){
@@ -49,7 +49,7 @@ class Controller extends BaseController
 
     public function changeBalance(Request $r){
 
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -87,19 +87,19 @@ class Controller extends BaseController
     }
 
     public function winterStart(Request $r){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
         $id = round($r->id);
         if($id < 1 || $id > 16){
-            return response(['success' => false, 'mess' => 'Ошибка' ]);
+            return response(['success' => false, 'mess' => 'Error' ]);
         }
 
         $setting = Setting::first();
 
         if($setting->newYear == 0 || $user->newYear == 1){
-            return response(['success' => false, 'mess' => 'Ошибка' ]);
+            return response(['success' => false, 'mess' => 'Error' ]);
         }  
 
         $prize = [5,
@@ -166,7 +166,7 @@ class Controller extends BaseController
     }
 
     public function addDemoBalance(Request $r){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
         $addbalance = $r->addbalance;
@@ -258,7 +258,7 @@ class Controller extends BaseController
     }
 
      public function refsChange(Request $r){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 if($user->type_balance == 1){
@@ -299,7 +299,7 @@ if($user->type_balance == 1){
 
 
     public function repostChange(Request $r){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -341,7 +341,7 @@ if($user->type_balance == 1){
 
     public function promoAct(Request $r){
         $name = $r->name;
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
         if($user->type_balance == 1){
@@ -406,7 +406,7 @@ if($user->type_balance == 1){
     }
 
     public function transferGetUser(Request $r){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
         $id = $r->id;
         $user_count = User::where('id', $id)->count();
         if($user_count == 0){
@@ -429,7 +429,7 @@ if($user->type_balance == 1){
         $name = $r->name;
         $sum = $r->sum;
         $act = round($r->act);
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 
         if($sum < 1){
@@ -465,7 +465,7 @@ if($user->type_balance == 1){
         }
 
         if($user->balance < $sum_pay){
-            return response(['success' => false, 'mess' => 'Недостаточно средств' ]);
+            return response(['success' => false, 'mess' => 'Insufficient funds' ]);
         }
 
        
@@ -511,7 +511,7 @@ if($user->type_balance == 1){
     }
 
     public function transferGo(Request $r){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $id = $r->id;
         $sum = $r->sum;
@@ -524,7 +524,7 @@ if($user->type_balance == 1){
 
         $my_user = \Auth::user();
         if($my_user->balance < $sum){
-            return response(['success' => false, 'mess' => 'Недостаточно средств' ]);
+            return response(['success' => false, 'mess' => 'Insufficient funds' ]);
         }
         if($sum < 1){
             return response(['success' => false, 'mess' => 'Сумма меньше 1' ]);
@@ -597,7 +597,7 @@ if($user->type_balance == 1){
         return response(['success' => true, 'balance' => $user->balance ]);
     }
     public function bonusRef(){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 if($user->type_balance == 1){
@@ -647,7 +647,7 @@ if($user->type_balance == 1){
     }
     public function bonusCheckTg()
     {
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -659,7 +659,7 @@ if($user->type_balance == 1){
         return response(['success' => true, 'mess' => 'Теперь вы можете получить бонус' ]);
     }
     public function bonusGetTg(Request $request){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -726,7 +726,7 @@ if($user->type_balance == 1){
     }
 
     public function bonusGetVk(Request $request){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 if($user->type_balance == 1){
@@ -748,7 +748,7 @@ if($user->type_balance == 1){
         $vk1 = $vk1->response[0]->id ?? 0;
 
         if($vk1 == 0){
-            return response(['success' => false, 'mess' => "Ошибка №VK" ]);
+            return response(['success' => false, 'mess' => "Error №VK" ]);
         }
         $resp = file_get_contents("https://api.vk.com/method/groups.isMember?group_id=".$grid."&user_id={$vk1}&access_token=".$grtok."&v=5.131");
         $data = json_decode($resp, true);
@@ -783,7 +783,7 @@ if($user->type_balance == 1){
 
     }
     public function bonusGet(Request $request){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 if($user->type_balance == 1){

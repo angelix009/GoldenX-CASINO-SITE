@@ -44,7 +44,7 @@ function load(page, that, func = '', id = '') {
 
 		}).fail(function(jqxhr, settings, exception) {
 			$('.preloader').addClass("preloader-remove");
-			notifaction("error", "Ошибка")      
+			notifaction("error", "Error")      
 		});
 	};
 
@@ -101,7 +101,7 @@ $(document).ready(function() {
 	})
 });
 
-const socket = io(':2083');
+const socket = io('http://localhost:2083');
 
 socket.emit('getUsersOnline');
 socket.emit('getGamesOnline');
@@ -361,7 +361,7 @@ socket.on('WHEEL_TIME',e=>{
 
 socket.on('WHEEL_NOTIFY',e=>{
 	if(USER_ID == e.user_id){
-		notification('success', 'Вы выиграли '+e.win.toFixed(2)+' монет')
+		notification('success', 'You won '+e.win.toFixed(2)+' монет')
 		updateBalance() 
 	}
 })
@@ -1008,7 +1008,7 @@ function goWithdraw(that) {
                         </div>\
                     </div>\
                     <div id="statusW_'+e.withdraw.id+'" class="wallet__history-status  warning">\
-                        <span >Ожидание... (<a onclick="disable(this);canselWithdraw('+e.withdraw.id+', this)">Отменить</a>)</span>\
+                        <span >Waiting... (<a onclick="disable(this);canselWithdraw('+e.withdraw.id+', this)">Отменить</a>)</span>\
                     </div>\
                 </div>')
 		}else{
@@ -1422,7 +1422,7 @@ function startGameMineNew(that){
 			disable('#BombMines')
 			disable('.btn_mine_bomb')
 			disable('.btn_mine_level')
-			notification('success', 'Игра началась!')
+			notification('success', 'Game started!')
 			$('.start_block_mine').hide()
 			$('.play_block_mine').show()
 			$('.mines__x-item').removeClass('active')
@@ -1492,7 +1492,7 @@ function finishGameMineNew(that){
 			$('#winMine').html('0.00')
 			game = e.game
 			$('#checkMine').show();
-			notification('success' , 'Вы выиграли ' +Number(game.win).toFixed(2))
+			notification('success' , 'You won ' +Number(game.win).toFixed(2))
 			$('.sumWinText').html(Number(game.win).toFixed(2));
 			$('.win_mine_block').show()
 
@@ -2321,7 +2321,7 @@ $('#lightTheme').click(function(e){
  			bet_user = 1;
  			notification('success',e.success)
  			balanceUpdate(e.lastbalance, e.newbalance)
- 			$('#btnCrash span').html('Ожидание игры...')	
+ 			$('#btnCrash span').html('Waiting игры...')	
  			disable('#crashSum')	
  			disable('#crashAuto')				
  		}

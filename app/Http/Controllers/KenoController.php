@@ -138,11 +138,11 @@ class KenoController extends Controller
                 $user->type_balance == 0 ? $user->balance += $win : $user->demo_balance += $win;
                 $user->save();  
 
-                $this->redis->publish('updateBalance', json_encode($callback)); 
+                if($this->redis) $this->redis->publish('updateBalance', json_encode($callback)); 
 
                 $callback = ['user_id' => $user->id, 'win' => $win];
 
-                $this->redis->publish('kenoWin', json_encode($callback)); 
+                if($this->redis) $this->redis->publish('kenoWin', json_encode($callback)); 
 
           
             }
@@ -156,12 +156,12 @@ class KenoController extends Controller
     {
         $bank = Keno::sum('bet');
         $users = Keno::count();
-        if(\Auth::guest()){return response(['error' => 'Авторизуйтесь', 'bank' => $bank, 'users' => $users, 'history' => Keno::all() ]);}
+        if(\Auth::guest()){return response(['error' => 'Please login', 'bank' => $bank, 'users' => $users, 'history' => Keno::all() ]);}
 
         $user = \Auth::user();
         $keno = Keno::where('user_id', $user->id)->count();
         if($keno == 0){
-            return response(['error' => 'Ошибка', 'bank' => $bank, 'users' => $users, 'history' => Keno::all()]);
+            return response(['error' => 'Error', 'bank' => $bank, 'users' => $users, 'history' => Keno::all()]);
         }
         $keno = Keno::where('user_id', $user->id)->first();
         $numbers = $keno->numbers;
@@ -175,12 +175,12 @@ class KenoController extends Controller
     public function bet(Request $r)
     {
 
-        if(\Auth::guest()){return response(['error' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['error' => 'Please login' ]);}
 
         $user = \Auth::user();
 
 
-        if (\Cache::has('action.user.' . $user->id)) return response(['error' => 'Подождите 1 сек.']);
+        if (\Cache::has('action.user.' . $user->id)) return response(['error' => 'Wait 1 sec.']);
         \Cache::put('action.user.' . $user->id, '', 1);
 
 
@@ -195,10 +195,10 @@ class KenoController extends Controller
         }
         
         if($countSelect < 1 or $countSelect > 5){
-            return response(['error' => 'Ошибка в выборе ячеек']);
+            return response(['error' => 'Error в выборе ячеек']);
         }
         if($user->ban == 1){
-            return response(['error' => 'Произошла неизвестная ошибка']);
+            return response(['error' => 'An unknown error occurred']);
         }
         $setting = Setting::first();
         if($user->admin != 1){
@@ -222,7 +222,7 @@ class KenoController extends Controller
 
         if ($bet > $userBalance)
         {
-            return response(['error' => 'Недостаточно средств']);
+            return response(['error' => 'Insufficient funds']);
         }
 
         
@@ -294,7 +294,7 @@ class KenoController extends Controller
         $bank = Keno::sum('bet');
         $users = Keno::count();
         $callback = ['bank' => $bank, 'users' => $users, 'img' => $user->avatar, 'login' => $user->name, 'bet' => $bet, 'numbers' => json_encode($selectsKeno), 'win' => $winKeno = $bet * $kenoCoefs[count($selectsKeno) - 1][count($selectsKeno) - 1]];
-        $this->redis->publish('updateKenoBank', json_encode($callback));
+        if($this->redis) $this->redis->publish('updateKenoBank', json_encode($callback));
         $userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
 
         return response(['success' => 'Ваша ставка принята', 'lastbalance' => $lastbalance, 'newbalance' => $userBalance ]);

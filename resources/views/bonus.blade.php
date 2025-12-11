@@ -3,7 +3,7 @@
 		<div class="bonus__top">
 			<div class="bonus__items">
 				<div class="bonus__item">
-					<div class="bonus__item-title"><span>Вконтакте</span></div>
+					<div class="bonus__item-title"><span>VKontakte</span></div>
 					<div class="bonus__content d-flex justify-space-between align-center">
 						<div class="bx-input__input d-flex align-center justify-space-between">
 							<label class="d-flex align-center">Размер:</label>
@@ -38,7 +38,7 @@
 					<div class="bonus__wheel">
 						<div class="bonus__wheel-cursor"></div>
 						<div class="bonus__wheel-go" onclick="disable(this);getBonus(this)" id="bonusGo">
-							<span>Крутить</span>
+							<span>Spin</span>
 						</div>
 						<div class="bonus__wheel-image">
 							<div class="bonus__wheel-borders d-flex align-center justify-center">
@@ -60,7 +60,7 @@
 						</div>
 						<div class="bonus__levels-items" id="all_bonusStatus_table">
 							<div class="bonus__levels-item bonus__levels-item--1 d-flex flex-column align-center justify-center">
-								<h4>Уровень 1</h4>
+								<h4>Level 1</h4>
 								<span class="user-status new" style="margin-bottom: 15px;">Новичок</span>
 								<a href="#" class="btn is-ripples flare btn--orange d-flex align-center"><span>От 1 до 3</span></a>
 							</div>
@@ -170,7 +170,7 @@
                         </tr>')
 
                         $('#all_bonusStatus_table').append('<div class="bonus__levels-item bonus__levels-item--2 d-flex flex-column align-center justify-center">\
-								<h4>Уровень '+(e.id + 1)+'</h4>\
+								<h4>Level '+(e.id + 1)+'</h4>\
 								<span class="user-status '+e.class+'" style="margin-bottom: 15px;">'+e.name+'</span>\
 								<a href="#" class="btn disabled is-ripples flare btn--purple d-flex align-center"><span>'+textBonus+'</b></span></a>\
 							</div>')

@@ -61,7 +61,7 @@
                 <a href="/admin/user/{{Auth::user()->id}}" class="dropdown-item" href="contacts-profile"><i class="bx bx-user font-size-16 align-middle me-1"></i> <span key="t-profile">Мой профиль</span></a>
                 
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="/" ><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Выйти из админки</span></a>
+                <a class="dropdown-item text-danger" href="/" ><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout из админки</span></a>
                 
             </div>
         </div>

@@ -31,10 +31,10 @@ $profit_coinGame = round(\Cache::get('coinGame.profit'), 2) ?? 0;
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
-                <h3>Настройки антиминуса</h3>
+                <h3>Settings антиминуса</h3>
                 <div class="row">
                     <div class="col-lg-3 mb-3">
-                        <label>Банк режима DICE</label>
+                        <label>Bank режима DICE</label>
                         <input type="" class="form-control" readonly id="dice_bank" value="{{$bank_diceGame}}" name="">
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -49,7 +49,7 @@ $profit_coinGame = round(\Cache::get('coinGame.profit'), 2) ?? 0;
 
                 <div class="row">
                     <div class="col-lg-3 mb-3">
-                        <label>Банк режима MINES</label>
+                        <label>Bank режима MINES</label>
                         <input type="" class="form-control" readonly id="mines_bank" value="{{$bank_minesGame}}" name="">
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -64,7 +64,7 @@ $profit_coinGame = round(\Cache::get('coinGame.profit'), 2) ?? 0;
 
                 <div class="row">
                     <div class="col-lg-3 mb-3">
-                        <label>Банк режима COIN FLIP</label>
+                        <label>Bank режима COIN FLIP</label>
                         <input type="" class="form-control" readonly id="coin_bank" value="{{$bank_coinGame}}" name="">
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -79,7 +79,7 @@ $profit_coinGame = round(\Cache::get('coinGame.profit'), 2) ?? 0;
 
                 <div class="row">
                     <div class="col-lg-3 mb-3">
-                        <label>Банк режима CRAZY SHOOT</label>
+                        <label>Bank режима CRAZY SHOOT</label>
                         <input type="" class="form-control" readonly id="shoot_bank" value="{{$setting->shoot_bank}}" name="">
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -94,7 +94,7 @@ $profit_coinGame = round(\Cache::get('coinGame.profit'), 2) ?? 0;
 
                 <div class="row">
                     <div class="col-lg-3 mb-3">
-                        <label>Банк режима X30 и X100</label>
+                        <label>Bank режима X30 и X100</label>
                         <input type="" class="form-control" readonly id="wheel_bank" value="{{$setting->wheel_bank}}" name="">
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -109,7 +109,7 @@ $profit_coinGame = round(\Cache::get('coinGame.profit'), 2) ?? 0;
 
                 <div class="row">
                     <div class="col-lg-3 mb-3">
-                        <label>Банк режима CRASH</label>
+                        <label>Bank режима CRASH</label>
                         <input type="" class="form-control" readonly id="crash_bank" value="{{$setting->crash_bank}}" name="">
                     </div>
                     <div class="col-lg-3 mb-3">

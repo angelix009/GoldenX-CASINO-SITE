@@ -5,33 +5,91 @@ var redis = new Redis();
 var RandomOrg = require('random-org');
 // const curl = new (require( 'curl-request' ))();
 
-const { curly } = require('node-libcurl')
+// const { curly } = require('node-libcurl')
 
 var request = require('request');
 
 var requestify = require('requestify');
-domain = 'https://mortalsoft.online';
+domain = 'http://localhost:8000';
 
-var crypto = require('crypto'); 
+var crypto = require('crypto');
 
-const mysql = require('mysql')
-const util = require('util')
-var client = mysql.createConnection({
-    host: 'localhost',
-    user: 'replace_user',
-    password: 'replace_password',
-    database: 'replace_db',
+// Using PostgreSQL with Supabase
+const { Pool } = require('pg');
+
+// Supabase PostgreSQL connection
+const pool = new Pool({
+    host: 'db.duxwgikyjgappnvtltsu.supabase.co',
+    port: 6543,
+    database: 'postgres',
+    user: 'postgres',
+    password: process.env.SUPABASE_DB_PASSWORD || 'Tayeulelaptop77@',
+    ssl: { rejectUnauthorized: false }
 });
-client.query = util.promisify(client.query);
-client.query("SET SESSION wait_timeout = 604800");
 
-const server = require("https").createServer({
-    key: fs.readFileSync('/etc/letsencrypt/live/mortalsoft.online/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/mortalsoft.online/fullchain.pem')
-}),
+// Create a promisified query wrapper for PostgreSQL to match MySQL API
+const client = {
+    query: async function(sql, params = []) {
+        try {
+            // Convert MySQL ? placeholders to PostgreSQL $1, $2, etc.
+            let paramIndex = 0;
+            let pgSql = sql.replace(/\?/g, () => `$${++paramIndex}`);
+
+            // Remove MySQL backticks (PostgreSQL uses double quotes, but simple names don't need them)
+            pgSql = pgSql.replace(/`/g, '');
+
+            // Handle TRUNCATE - PostgreSQL supports it but needs different syntax
+            if (pgSql.trim().toUpperCase().startsWith('TRUNCATE')) {
+                const tableName = pgSql.trim().split(/\s+/)[1];
+                pgSql = `DELETE FROM ${tableName}`;
+            }
+
+            // Handle MySQL LIMIT syntax (LIMIT 0,50 -> LIMIT 50 OFFSET 0)
+            pgSql = pgSql.replace(/LIMIT\s+(\d+)\s*,\s*(\d+)/gi, 'LIMIT $2 OFFSET $1');
+
+            // Handle count(*) - PostgreSQL returns bigint, need to convert
+            const result = await pool.query(pgSql, params);
+
+            // Convert PostgreSQL result to match MySQL/SQLite format
+            if (pgSql.trim().toUpperCase().startsWith('SELECT')) {
+                // Handle count(*) conversion
+                if (result.rows.length > 0 && result.rows[0]['count(*)'] === undefined && result.rows[0].count !== undefined) {
+                    result.rows.forEach(row => {
+                        if (row.count !== undefined) {
+                            row['count(*)'] = parseInt(row.count);
+                            row['COUNT(*)'] = parseInt(row.count);
+                        }
+                    });
+                }
+                // Handle SUM conversion
+                result.rows.forEach(row => {
+                    Object.keys(row).forEach(key => {
+                        if (key.toLowerCase().includes('sum(')) {
+                            const newKey = key.replace(/sum\(`?(\w+)`?\)/i, "SUM(`$1`)");
+                            if (newKey !== key) {
+                                row[newKey] = row[key] ? parseFloat(row[key]) : null;
+                            }
+                        }
+                    });
+                });
+                return result.rows;
+            } else if (pgSql.trim().toUpperCase().startsWith('INSERT')) {
+                return { insertId: result.rows[0]?.id || result.rowCount };
+            } else {
+                return { affectedRows: result.rowCount };
+            }
+        } catch (err) {
+            console.error('PostgreSQL Error:', err.message, 'SQL:', sql);
+            throw err;
+        }
+    }
+};
+
+// Use HTTP instead of HTTPS for local development
+const server = require("http").createServer(),
 io = require("socket.io")(server, {
     cors: {
-        origin: "https://mortalsoft.online",
+        origin: "*",
         methods: ["GET", "POST"]
     }
 });
@@ -159,7 +217,7 @@ io.on('connection', function(socket) {
             var gameCrash = await client.query('SELECT * FROM crash WHERE id = ?', [gameId])
 
             crash_userId = gameCrash[0].user_id
-            crash_userBet = gameCrash[0].bet
+            crash_userBet = parseFloat(gameCrash[0].bet)
 
             crash_userCoeff = now_iks
             crash_userWin = crash_userCoeff * crash_userBet        
@@ -184,15 +242,15 @@ io.on('connection', function(socket) {
             type_balance = user_bd[0]['type_balance']
 
             if(type_balance == 0){
-                balanceLast = user_bd[0]['balance']
-                balanceNew = crash_userWin + user_bd[0]['balance']
+                balanceLast = parseFloat(user_bd[0]['balance'])
+                balanceNew = crash_userWin + balanceLast
                 await client.query('UPDATE users SET balance = ?  WHERE id = ?', [balanceNew, crash_userId])
             }else{
-                balanceLast = user_bd[0]['demo_balance']
-                balanceNew = crash_userWin + user_bd[0]['demo_balance']
+                balanceLast = parseFloat(user_bd[0]['demo_balance'])
+                balanceNew = crash_userWin + balanceLast
                 await client.query('UPDATE users SET demo_balance = ?  WHERE id = ?', [balanceNew, crash_userId])
             }
-            
+
 
             await io.sockets.emit('crashNoty', {
                 balanceLast, balanceNew,
@@ -531,31 +589,18 @@ async function randOrgJackpot(){
     });
 }
 async function randOrg(game) {
- await requestify.request(domain+'/generate_number_'+game, {
-  method: 'GET'
-})
- .then(async function(response) {
-    response = response.body;
-    console.log(response)
-    response = JSON.parse(response)
+    // Use local random for development
     if(game == 'x30'){
-        rand_keyX30 = response.number
-        rand_randomX30 = response.random
-        rand_signatureX30 = response.signature
+        rand_keyX30 = rand(0, 29)  // 0-29 for wheel
+        rand_randomX30 = Math.random().toString(36).substring(7)
+        rand_signatureX30 = 'local'
     }else{
-        rand_keyX100 = response.number
-        rand_randomX100 = response.random
-        rand_signatureX100 = response.signature
+        rand_keyX100 = rand(0, 99)  // 0-99 for x100
+        rand_randomX100 = Math.random().toString(36).substring(7)
+        rand_signatureX100 = 'local'
     }
-    return 'True'       
-})
- .fail(async function (response) {
-    console.log('responsebody', response.body);
-    console.log('response Error', response.getCode());
-    return 'False'
-});
-
-
+    console.log('Local random generated for ' + game)
+    return 'True'
 }
 
 async function winUserX100(){
@@ -604,6 +649,9 @@ var bonusWheelTime = 0
 var rand_keyX30 = 0
 var rand_randomX30 = 0
 var rand_signatureX30 = 0
+var rand_keyX100 = 0
+var rand_randomX100 = 0
+var rand_signatureX100 = 0
 
 function sleepWait(){
     TIMER_WHEEL_WAIT = 5
@@ -800,7 +848,7 @@ function startWheel(TIMER_WHEEL){
                                 bet: 'off'
                             })
                             if(finish_bonus == 6){
-                             await client.query('UPDATE settings SET wheel_win="false"')
+                             await client.query("UPDATE settings SET wheel_win='false'")
 
                          }
                          if (finish_bonus <= 0){
@@ -832,7 +880,7 @@ function startWheel(TIMER_WHEEL){
 
 
                         await client.query('INSERT INTO wheel_history (number,coff, random, signature) VALUES (?,?, ?, ?)', [number_double,colorCoffResult, rand_random_x30, rand_signature_x30])
-                        await client.query('UPDATE settings SET youtube=0,wheel_win="false",mult_bonus="false",coeff_bonus="false",wheelYmn = ?, wheelWinNumber = ?', [wheelYmn, coffNumberX30])
+                        await client.query("UPDATE settings SET youtube=0,wheel_win='false',mult_bonus='false',coeff_bonus='false',wheelYmn = ?, wheelWinNumber = ?", [wheelYmn, coffNumberX30])
 
                         console.log('Win wait...')
 
@@ -1208,7 +1256,7 @@ function startX100(TIMER_WHEEL){
 
 
                     await client.query('INSERT INTO x100_history (number,coff, random, signature) VALUES (?,?, ?, ?)', [number_x100,colorCoffResultX100, rand_random_x100, rand_signature_x100])
-                    await client.query('UPDATE settings SET win_x100="false", x100WinNumber = ?', [coffNumberX100])
+                    await client.query("UPDATE settings SET win_x100='false', x100WinNumber = ?", [coffNumberX100])
 
                     console.log('Win wait...')
 
@@ -1470,8 +1518,9 @@ async function startJackpot(){
                     const RESULT_JACKPOT = await unikumBet(res)
                     for (let i = 0; i < RESULT_JACKPOT.length; i++) {
                         const w = await client.query('SELECT SUM(`bet`) FROM jackpot WHERE user_id = ?', [RESULT_JACKPOT[i].user_id])
-                        bank += w[0]['SUM(`bet`)']
-                        RESULT_JACKPOT[i].bet = w[0]['SUM(`bet`)']
+                        const betSum = parseFloat(w[0]['SUM(`bet`)']) || 0
+                        bank += betSum
+                        RESULT_JACKPOT[i].bet = betSum
                         players.push(RESULT_JACKPOT[i])
                     }
 
@@ -1801,9 +1850,9 @@ function startCrash() {
 
             var sssss = await client.query('SELECT * FROM settings')
 
-            bankCrash = sssss[0].crash_bank;
+            bankCrash = parseFloat(sssss[0].crash_bank) || 0;
 
-            var crash_boom = sssss[0].crash_boom;
+            var crash_boom = parseFloat(sssss[0].crash_boom) || 0;
             if (crash_boom != 0) {
                 result_crash = crash_boom
             }
@@ -1852,10 +1901,7 @@ function startCrash() {
             console.log(gameCrash)
 
             var select_crash_counting = await client.query('SELECT SUM(`bet`) FROM crash WHERE result = 0')
-            winAllCrash = select_crash_counting[0]['SUM(`bet`)']
-            if(winAllCrash == null){
-                winAllCrash = 0
-            }
+            winAllCrash = parseFloat(select_crash_counting[0]['SUM(`bet`)']) || 0
             betAllCrash = winAllCrash
             console.log('Bank: '+bankCrash+' WinAllCrash: '+winAllCrash)
 
@@ -1913,10 +1959,10 @@ function startCrash() {
                     var sel_crash = await client.query('SELECT user_id, bet, id, auto FROM crash WHERE result = 0 and auto <= ?', [now_iks])
 
                     var sel_crash_bet = await client.query('SELECT SUM(`bet`) FROM crash WHERE result = 0 and auto <= ?', [now_iks])
-                    bets = sel_crash_bet[0]['SUM(`bet`)']
+                    bets = parseFloat(sel_crash_bet[0]['SUM(`bet`)']) || 0
 
                     var sel_crash_win = await client.query('SELECT SUM(`win`) FROM crash WHERE result = 0 and auto <= ?', [now_iks])
-                    wins = sel_crash_win[0]['SUM(`win`)']
+                    wins = parseFloat(sel_crash_win[0]['SUM(`win`)']) || 0
 
                     bankCrash -= wins
                     winAllCrash -= bets
@@ -1936,12 +1982,12 @@ function startCrash() {
                         
 
                         crash_userId = e.user_id
-                        crash_userBet = e.bet
+                        crash_userBet = parseFloat(e.bet)
                         gameId = e.id
 
-                        crash_userCoeff = e.auto
-                        crash_userWin = crash_userCoeff * crash_userBet        
-                        
+                        crash_userCoeff = parseFloat(e.auto)
+                        crash_userWin = crash_userCoeff * crash_userBet
+
                         await client.query('UPDATE crash SET result = ?  WHERE id = ?', [crash_userCoeff, gameId])
 
                         var user_bd = await client.query('SELECT balance, demo_balance, type_balance FROM users WHERE id = ?', [crash_userId])
@@ -1949,15 +1995,15 @@ function startCrash() {
                         type_balance = user_bd[0]['type_balance']
 
                         if(type_balance == 0){
-                            balanceLast = user_bd[0]['balance']
-                            balanceNew = crash_userWin + user_bd[0]['balance']
+                            balanceLast = parseFloat(user_bd[0]['balance'])
+                            balanceNew = crash_userWin + balanceLast
                             await client.query('UPDATE users SET balance = ?  WHERE id = ?', [balanceNew, crash_userId])
                         }else{
-                            balanceLast = user_bd[0]['demo_balance']
-                            balanceNew = crash_userWin + user_bd[0]['demo_balance']
+                            balanceLast = parseFloat(user_bd[0]['demo_balance'])
+                            balanceNew = crash_userWin + balanceLast
                             await client.query('UPDATE users SET demo_balance = ?  WHERE id = ?', [balanceNew, crash_userId])
                         }
-                        
+
 
                         io.sockets.emit('crashNoty', {
                             balanceLast, balanceNew,
@@ -2048,10 +2094,10 @@ function startCrash() {
                             var sel_crash = await client.query('SELECT user_id, bet, id, auto FROM crash WHERE result = 0 and auto <= ?', [now_iks])
                             
                             var sel_crash_bet = await client.query('SELECT SUM(`bet`) FROM crash WHERE result = 0 and auto <= ?', [now_iks])
-                            bets = sel_crash_bet[0]['SUM(`bet`)']
+                            bets = parseFloat(sel_crash_bet[0]['SUM(`bet`)']) || 0
 
                             var sel_crash_win = await client.query('SELECT SUM(`win`) FROM crash WHERE result = 0 and auto <= ?', [now_iks])
-                            wins = sel_crash_win[0]['SUM(`win`)']
+                            wins = parseFloat(sel_crash_win[0]['SUM(`win`)']) || 0
 
                             bankCrash -= wins
                             winAllCrash -= bets
@@ -2068,11 +2114,11 @@ function startCrash() {
                             sel_crash.forEach(async function(e, i, arr) {
 
                                 crash_userId = e.user_id
-                                crash_userBet = e.bet
+                                crash_userBet = parseFloat(e.bet)
                                 gameId = e.id
 
-                                crash_userCoeff = e.auto
-                                crash_userWin = crash_userCoeff * crash_userBet        
+                                crash_userCoeff = parseFloat(e.auto)
+                                crash_userWin = crash_userCoeff * crash_userBet
 
                                 await client.query('UPDATE crash SET result = ?  WHERE id = ?', [crash_userCoeff, gameId])
 
@@ -2081,15 +2127,15 @@ function startCrash() {
                                 type_balance = user_bd[0]['type_balance']
 
                                 if(type_balance == 0){
-                                    balanceLast = user_bd[0]['balance']
-                                    balanceNew = crash_userWin + user_bd[0]['balance']
+                                    balanceLast = parseFloat(user_bd[0]['balance'])
+                                    balanceNew = crash_userWin + balanceLast
                                     await client.query('UPDATE users SET balance = ?  WHERE id = ?', [balanceNew, crash_userId])
                                 }else{
-                                    balanceLast = user_bd[0]['demo_balance']
-                                    balanceNew = crash_userWin + user_bd[0]['demo_balance']
+                                    balanceLast = parseFloat(user_bd[0]['demo_balance'])
+                                    balanceNew = crash_userWin + balanceLast
                                     await client.query('UPDATE users SET demo_balance = ?  WHERE id = ?', [balanceNew, crash_userId])
                                 }
-                                
+
 
                                 await io.sockets.emit('crashNoty', {
                                     balanceLast, balanceNew,
@@ -2099,7 +2145,7 @@ function startCrash() {
 
                                 // await crashPublish(gameId, crash_userWin, crash_userId, crash_userCoeff)
 
-                                
+
                                 // bankCrash -= crash_userWin
                                 // winAllCrash -= crash_userBet
 

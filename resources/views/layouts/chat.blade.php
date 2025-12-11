@@ -6,7 +6,7 @@ $setting = \App\Setting::first();
         <div class="chat__online d-flex align-center">
             <svg class="icon"><use xlink:href="/images/symbols.svg#users"></use></svg>
             <div>
-                <span>Онлайн</span>
+                <span>Online</span>
                 <p class="online"></p>
             </div>
         </div>
@@ -27,7 +27,7 @@ $setting = \App\Setting::first();
                     @if($setting->theme == 1)
                     <img class="chat__promocode-img" src="images/snow/promocode.png">
                     @endif
-                    <h4>Новый промокод</h4>
+                    <h4>New promo code</h4>
                     <div class="chat__promocode-timer Chat d-flex align-center">
                         <span class="chat__promocode-timer--span">0</span>
                         <span class="chat__promocode-timer--span">1</span>
@@ -43,7 +43,7 @@ $setting = \App\Setting::first();
  
     <!--         <div class="chat__giveaway">
             <div class="chat__giveaway-inner">
-                <h5>Промокод каждый час</h5>
+                <h5>Promo code каждый час</h5>
                 <div class="chat__giveaway-timer d-flex align-center">
                     <span class="chat__giveaway-timer--span">0</span><span class="chat__giveaway-timer--span">0</span><span>:</span><span class="chat__giveaway-timer--span">0</span><span class="chat__giveaway-timer--span">0</span><span>:</span><span class="chat__giveaway-timer--span">0</span><span class="chat__giveaway-timer--span">0</span>
                 </div>
@@ -53,7 +53,7 @@ $setting = \App\Setting::first();
     <div class="chat__header-info d-flex align-center justify-space-between">
         <div class="chat__giveaway">
             <div class="chat__giveaway-inner">
-                <h5>Промокод каждый час</h5>
+                <h5>Promo code каждый час</h5>
                 <div class="chat__giveaway-timer d-flex align-center">
                     <span class="chat__giveaway-timer--span">0</span><span class="chat__giveaway-timer--span">0</span><span>:</span><span class="chat__giveaway-timer--span">0</span><span class="chat__giveaway-timer--span">0</span><span>:</span><span class="chat__giveaway-timer--span">0</span><span class="chat__giveaway-timer--span">0</span>
                 </div>
@@ -66,7 +66,7 @@ $setting = \App\Setting::first();
     <div class="chat__bottom">
         <div class="chat__send d-flex align-center justify-space-between">
             <div class="chat__input">
-                <input type="text" onkeydown="if(event.keyCode==13){ disable(this);sendMess(this); }" id="messageChat" placeholder="Введите ваше сообщение...">
+                <input type="text" onkeydown="if(event.keyCode==13){ disable(this);sendMess(this); }" id="messageChat" placeholder="Enter your message...">
             </div>
             <div class="chat__buttons d-flex align-center">
                 <a onclick="disable(this);sendMess(this)"  class="d-flex align-center justify-center">

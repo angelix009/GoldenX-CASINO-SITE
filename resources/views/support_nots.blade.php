@@ -23,7 +23,7 @@
 
 						</div>
 						<div class="col-5">
-							<button class="btn_tp">Создать обращение</button>
+							<button class="btn_tp">Create обращение</button>
 						</div>
 					</div>
 					<div style="margin-top:30px">

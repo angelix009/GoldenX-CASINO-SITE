@@ -3,10 +3,10 @@
             <thead>
                 <tr>
                     <td>Игра</td>
-                    <td>Игрок</td>
-                    <td>Ставка</td>
+                    <td>Player</td>
+                    <td>Bet</td>
                     <td>Коэфф.</td>
-                    <td>Выигрыш</td>
+                    <td>Win</td>
                 </tr>
             </thead>
             <tbody class="gameHistory">

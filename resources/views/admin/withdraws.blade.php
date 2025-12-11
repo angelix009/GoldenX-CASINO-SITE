@@ -22,11 +22,11 @@
 						<thead>
 							<tr>
 								<th scope="col">#</th>
-								<th scope="col">Пользователь</th>
-								<th scope="col">Система</th>
-								<th scope="col">Сумма</th>
-								<th scope="col">Кошелек</th>
-								<th scope="col">Дата</th>
+								<th scope="col">User</th>
+								<th scope="col">System</th>
+								<th scope="col">Amount</th>
+								<th scope="col">Wallet</th>
+								<th scope="col">Date</th>
 								@if($data['dop'] == 0)
 								<th scope="col">Действия</th>
 								@endif

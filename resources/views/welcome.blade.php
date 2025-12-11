@@ -67,7 +67,7 @@
     <a onclick="load('tourniers')" class="tournier__link d-flex align-center justify-space-between">
         <div class="d-flex align-center">
             <svg class="icon"><use xlink:href="images/symbols.svg?v=6#tournier"></use></svg>
-            <b>Турниры</b>
+            <b>Tournaments</b>
         </div>
         <span>Перейти к турнирам</span>
     </a>

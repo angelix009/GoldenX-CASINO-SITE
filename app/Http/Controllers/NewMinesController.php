@@ -29,7 +29,7 @@ class NewMinesController extends Controller
 	}
 
 	public function autoClick(){
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -43,7 +43,7 @@ class NewMinesController extends Controller
 			$games_on = \Cache::get('minesGame.user.'. $user->id.'start');
 		}
 		if($games_on == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		$cache_gameMine = \Cache::get('minesGame.user.'. $user->id.'game');
@@ -59,7 +59,7 @@ class NewMinesController extends Controller
 				$i += 1;
 				$select = mt_rand(1,$level);
 				if($i > 25){ 
-					return response(['success' => false, 'mess' => 'Ошибка' ]);               
+					return response(['success' => false, 'mess' => 'Error' ]);               
 					break;
 				}
 			}
@@ -76,7 +76,7 @@ class NewMinesController extends Controller
 
 		$setting = Setting::first();
 		$mine = round($r->mine);
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -92,7 +92,7 @@ class NewMinesController extends Controller
 
 
 		if($games_on == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		$cache_gameMine = \Cache::get('minesGame.user.'. $user->id.'game');
@@ -104,7 +104,7 @@ class NewMinesController extends Controller
 		$level = $cache_gameMine->level;
 
 		if($mine < 1 or $mine > $level){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		$bet = $cache_gameMine->bet;
@@ -160,7 +160,7 @@ class NewMinesController extends Controller
 			$user->sum_to_withdraw -= $cache_gameMine->bet;
 			$user->save();
 
-			$this->redis->publish('history', json_encode($callback));
+			if($this->redis) $this->redis->publish('history', json_encode($callback));
 			
 			$bets = \Cache::get('games');
 			$bets = json_decode($bets);
@@ -244,7 +244,7 @@ class NewMinesController extends Controller
 					$user->save();
 
 
-					$this->redis->publish('history', json_encode($callback));
+					if($this->redis) $this->redis->publish('history', json_encode($callback));
 
 					$bets = \Cache::get('games');
 					$bets = json_decode($bets);
@@ -318,11 +318,11 @@ class NewMinesController extends Controller
 
 		$setting = Setting::first();
 
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
-		if (\Cache::has('action.user.' . $user->id)) return response(['error' => 'Подождите 1 сек.']);
+		if (\Cache::has('action.user.' . $user->id)) return response(['error' => 'Wait 1 sec.']);
 		\Cache::put('action.user.' . $user->id, '', 1);
 
 		
@@ -334,7 +334,7 @@ class NewMinesController extends Controller
 
 
 		if($games_on == 0 or $user->minesStart == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 
@@ -386,7 +386,7 @@ class NewMinesController extends Controller
 
 		if(!(\Cache::has('user.'.$user->id.'.historyBalance'))){ \Cache::put('user.'.$user->id.'.historyBalance', '[]'); }
 
-		$userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
+		$userBalance = $user->type_balance == 0 ? floatval($user->balance) : floatval($user->demo_balance);
 
 
 		$hist_balance =	array(
@@ -407,7 +407,7 @@ class NewMinesController extends Controller
 		$lastbalance = $userBalance;
 		$newbalance = $userBalance + $win;
 		// $user->balance += $win;
-		$user->type_balance == 0 ? $user->balance += $win : $user->demo_balance += $win;
+		$user->type_balance == 0 ? $user->balance = floatval($user->balance) + $win : $user->demo_balance = floatval($user->demo_balance) + $win;
 
 		$user->count_win += 1;
 
@@ -434,7 +434,7 @@ class NewMinesController extends Controller
 			'win' => round($win, 2)
 		);
 
-		$this->redis->publish('history', json_encode($callback));
+		if($this->redis) $this->redis->publish('history', json_encode($callback));
 
 		$bets = \Cache::get('games');
 		$bets = json_decode($bets);
@@ -494,7 +494,7 @@ class NewMinesController extends Controller
 		$bet = $r->bet;
 		$bomb = ($r->bomb); 
 		$level = $r->level;
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -502,9 +502,9 @@ class NewMinesController extends Controller
 
 
 		if($user->ban == 1){
-			return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+			return response(['success' => false, 'mess' => 'An unknown error occurred']);
 		}
-		if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Подождите 1 сек.']);
+		if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Wait 1 sec.']);
         
 
 		if($bet < 1){
@@ -514,7 +514,7 @@ class NewMinesController extends Controller
 
 		if (!in_array($level, $levels))
 		{
-			return response(['success' => false, 'mess' => 'Ошибка']);
+			return response(['success' => false, 'mess' => 'Error']);
 		}
 
 		if(round($bomb) != $bomb ){
@@ -545,10 +545,10 @@ class NewMinesController extends Controller
 		}
 
 
-		$userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
+		$userBalance = $user->type_balance == 0 ? floatval($user->balance) : floatval($user->demo_balance);
 
 		if($userBalance < $bet){
-			return response(['success' => false, 'mess' => 'Недостаточно средств' ]);
+			return response(['success' => false, 'mess' => 'Insufficient funds' ]);
 		}
 
 		
@@ -658,7 +658,7 @@ class NewMinesController extends Controller
 		$user->minesStart = 1;
 		$lastbalance = $userBalance;
 
-		$user->type_balance == 0 ? $user->balance -= $bet: $user->demo_balance -= $bet;
+		$user->type_balance == 0 ? $user->balance = floatval($user->balance) - $bet : $user->demo_balance = floatval($user->demo_balance) - $bet;
 
 		// $user->balance -= $bet;
 		$user->save();

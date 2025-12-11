@@ -52,7 +52,7 @@ $setting = \App\Setting::first();
             <div class="x30__bet d-flex align-center justify-space-between">
                 <div class="x30__history">
                     <div class="bx-input__input d-flex align-center justify-space-between pd10-20">
-                        <label class="d-flex align-center">История:</label>
+                        <label class="d-flex align-center">History:</label>
                         <div class="x30__history-items">
                             <div class="x30__history-scroll d-flex align-center">
 

@@ -27,10 +27,10 @@ $users = \App\User::paginate(15);
                 <th scope="col">#</th>
                 <th scope="col">Имя</th>
                 <th scope="col">IP</th>
-                <th scope="col">Баланс</th>
-                <th scope="col">Депозитов</th>
-                <th scope="col">Выводов</th>
-                <th scope="col">Дата регистрации</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Depositов</th>
+                <th scope="col">Withdrawов</th>
+                <th scope="col">Registration date</th>
                 <th scope="col">Действия</th>
             </tr>
         </thead>

@@ -27,7 +27,7 @@ class MinesController extends Controller
 	}
 
 	public function autoClick(){
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -44,7 +44,7 @@ class MinesController extends Controller
 		}
 
 		if($games_on == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		$cache_gameMine = \Cache::get('minesGame.user.'. $user->id.'game');
@@ -59,7 +59,7 @@ class MinesController extends Controller
 				$i += 1;
 				$select = mt_rand(1,25);
 				if($i > 25){ 
-					return response(['success' => false, 'mess' => 'Ошибка' ]);               
+					return response(['success' => false, 'mess' => 'Error' ]);               
 					break;
 				}
 			}
@@ -73,7 +73,7 @@ class MinesController extends Controller
 	public function click(Request $r){
 		$setting = Setting::first();
 		$mine = round($r->mine);
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -81,7 +81,7 @@ class MinesController extends Controller
 		\Cache::put('action.user.' . $user->id, '', 0.8);
 
 		if($mine < 1 or $mine > 25){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		// $game = MinesGame::where(['user_id' => $user->id, 'onOff' => 1])->first();
@@ -95,7 +95,7 @@ class MinesController extends Controller
 		}
 
 		if($games_on == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		$cache_gameMine = \Cache::get('minesGame.user.'. $user->id.'game');
@@ -154,7 +154,7 @@ class MinesController extends Controller
 				'win' => 0
 			);
 
-			$this->redis->publish('history', json_encode($callback));
+			if($this->redis) $this->redis->publish('history', json_encode($callback));
 			
 			$bets = \Cache::get('games');
 			$bets = json_decode($bets);
@@ -248,7 +248,7 @@ class MinesController extends Controller
 						'win' => 0
 					);
 
-					$this->redis->publish('history', json_encode($callback));
+					if($this->redis) $this->redis->publish('history', json_encode($callback));
 
 					$bets = \Cache::get('games');
 					$bets = json_decode($bets);
@@ -315,7 +315,7 @@ class MinesController extends Controller
 	public function finish(){
 		$setting = Setting::first();
 
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -332,7 +332,7 @@ class MinesController extends Controller
 		}
 
 		if($games_on == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 
@@ -386,8 +386,8 @@ class MinesController extends Controller
 		$win_money = $win;
 
 		if($youtube != 3){
-			$setting->dice_bank -= $win_money;
-			$setting->save(); 
+			$setting->dice_bank = floatval($setting->dice_bank) - $win_money;
+			$setting->save();
 		}
 
 		if(!(\Cache::has('user.'.$user->id.'.historyBalance'))){ \Cache::put('user.'.$user->id.'.historyBalance', '[]'); }
@@ -407,9 +407,9 @@ class MinesController extends Controller
 		$cashe_hist_user = json_encode($cashe_hist_user);
 		\Cache::put('user.'.$user->id.'.historyBalance', $cashe_hist_user);
 
-		$lastbalance = $user->balance;
-		$newbalance = $user->balance + $win;
-		$user->balance += $win;
+		$lastbalance = floatval($user->balance);
+		$newbalance = floatval($user->balance) + $win;
+		$user->balance = $newbalance;
 		$user->save();
 
 		$callback = array(
@@ -421,7 +421,7 @@ class MinesController extends Controller
 			'win' => round($win, 2)
 		);
 
-		$this->redis->publish('history', json_encode($callback));
+		if($this->redis) $this->redis->publish('history', json_encode($callback));
 
 		$bets = \Cache::get('games');
 		$bets = json_decode($bets);
@@ -453,7 +453,7 @@ class MinesController extends Controller
 
 		$bet = $r->bet;
 		$bomb = $r->bomb;
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -485,7 +485,7 @@ class MinesController extends Controller
 		}
 
 		if($user->balance < $bet){
-			return response(['success' => false, 'mess' => 'Недостаточно средств' ]);
+			return response(['success' => false, 'mess' => 'Insufficient funds' ]);
 		}
 
 		
@@ -551,8 +551,8 @@ class MinesController extends Controller
 		\Cache::put('user.'.$user->id.'.historyBalance', $cashe_hist_user);
 
 
-		$lastbalance = $user->balance;
-		$user->balance -= $bet;
+		$lastbalance = floatval($user->balance);
+		$user->balance = floatval($user->balance) - $bet;
 		$user->save();
 
 
@@ -564,9 +564,9 @@ class MinesController extends Controller
 
 
 		if($youtube != 3){
-			$setting->dice_bank += ($bet * 0.9);
-			$setting->dice_profit += ($bet * 0.1);
-			$setting->save();	
+			$setting->dice_bank = floatval($setting->dice_bank) + ($bet * 0.9);
+			$setting->dice_profit = floatval($setting->dice_profit) + ($bet * 0.1);
+			$setting->save();
 		}
 
 		

@@ -80,7 +80,7 @@ $snow = 0;
             <canvas width="640" height="480" id="fireworks-canvas2"></canvas>
         </div>
         <div class="winter__wrapper d-flex align-center justify-center flex-column">
-            <h3>Выберите подарок</h3>
+            <h3>Choose a gift</h3>
             <div class="winter__wrapper-inner">
                 <div class="winter__item" onclick="disable('.winter__item');openWinter(1)">
                     <div class="winter__front d-flex align-center justify-center">
@@ -230,11 +230,11 @@ $snow = 0;
     </div>
     <div class="mobile-navbar d-flex flex-column">
         <li class="d-flex flex-column">
-            <a onclick="$('#moreBtn').click();load('')" href='#'>Главная</a>
-            <a onclick="$('#moreBtn').click();load('bonus')">Бонусы</a>
-            <a onclick="$('#moreBtn').click();load('refs')">Партнерка</a>
+            <a onclick="$('#moreBtn').click();load('')" href='#'>Home</a>
+            <a onclick="$('#moreBtn').click();load('bonus')">Bonuses</a>
+            <a onclick="$('#moreBtn').click();load('refs')">Partners</a>
             <a onclick="$('#moreBtn').click();load('faq')">Faq</a>
-            <a href="https://t.me/mortalsoft" target="_blank">Поддержка</a>
+            <a href="https://t.me/mortalsoft" target="_blank">Support</a>
         </li>
     </div>
     <div class="preloader d-flex align-center justify-center">
@@ -370,31 +370,31 @@ $snow = 0;
                     <li>
                         <a href="#" onclick="load('')" class="d-flex align-center">
                             <svg class="icon"><use xlink:href="images/symbols.svg#home"></use></svg>
-                            <span>Главная</span>
+                            <span>Home</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" onclick="load('bonus')" class="d-flex align-center">
                             <svg class="icon"><use xlink:href="images/symbols.svg#giveaway"></use></svg>
-                            <span>Бонусы</span>
+                            <span>Bonuses</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" onclick="load('refs')" class="d-flex align-center">
                             <svg class="icon"><use xlink:href="images/symbols.svg#users"></use></svg>
-                            <span>Партнерка</span>
+                            <span>Partners</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" onclick="load('faq')" class="d-flex align-center">
                             <svg class="icon"><use xlink:href="images/symbols.svg#faq"></use></svg>
-                            <span>F.A.Q</span>
+                            <span>FAQ</span>
                         </a>
                     </li>
                     <li>
                         <a href="https://t.me/mortalsoft" target="_blank" class="d-flex align-center">
                             <svg class="icon"><use xlink:href="images/symbols.svg#support"></use></svg>
-                            <span>Поддержка</span>
+                            <span>Support</span>
                         </a>
                     </li>
                 </nav>
@@ -414,7 +414,7 @@ $snow = 0;
                                 <svg class="icon"><use xlink:href="images/symbols.svg#coins"></use></svg>
                             </div>
                             <div class="header__user-balance-add">
-                                <a href="#" onclick="$('.wallet__method--sort-{{$min_sort}}_DEPOSIT').click();$('.wallet__method--Qiwi_WITHDRAW').click()" rel="popup" data-popup="popup--wallet" onclick="return false;" class="btn is-ripples flare d-flex align-center"><span>ПОПОЛНИТЬ</span></a>
+                                <a href="#" onclick="$('.wallet__method--sort-{{$min_sort}}_DEPOSIT').click();$('.wallet__method--Qiwi_WITHDRAW').click()" rel="popup" data-popup="popup--wallet" onclick="return false;" class="btn is-ripples flare d-flex align-center"><span>TOP UP</span></a>
                             </div>
                         </div>
                         <div class="header__user-profile d-flex align-center" id="dropdownUser">
@@ -425,32 +425,32 @@ $snow = 0;
                                 </a>
                                 <a href="#" onclick="load('profile')" class="d-flex align-center">
                                     <svg class="icon"><use xlink:href="images/symbols.svg#user"></use></svg>
-                                    <span>Профиль</span>
+                                    <span>Profile</span>
                                 </a>
                                 <a href="#" rel="popup" data-popup="popup--coupon" onclick="return false;" class="d-flex align-center">
                                     <svg class="icon"><use xlink:href="images/symbols.svg#coupon"></use></svg>
-                                    <span>Промокоды</span>
+                                    <span>Promo codes</span>
                                 </a>
 
                                 <!-- <a href="#" id="darkTheme" onclick="return false;" class="d-flex align-center">
                                     <svg class="icon"><use xlink:href="images/symbols.svg?v=1#dark"></use></svg>
-                                    <span>Темная тема</span>
+                                    <span>Dark theme</span>
                                     <em>new</em>
                                 </a>
                                 <a href="#" id="lightTheme" onclick="return false;" class="d-flex align-center">
                                     <svg class="icon"><use xlink:href="images/symbols.svg?v=1#light"></use></svg>
-                                    <span>Светлая тема</span>
+                                    <span>Light theme</span>
                                 </a> -->
                                 
                                 <a href="logout" onclick="location.href='logout'" class="d-flex align-center">
                                     <svg class="icon"><use xlink:href="images/symbols.svg#exit"></use></svg>
-                                    <span>Выйти</span>
+                                    <span>Logout</span>
                                 </a>
                             </div>
                         </div>
                     </div>
                     @else
-                    <a href="#" rel="popup" data-popup="popup--auth" onclick="return false;" class="btn is-ripples btn--blue d-flex align-center flare"><span>АВТОРИЗАЦИЯ</span></a>
+                    <a href="#" rel="popup" data-popup="popup--auth" onclick="return false;" class="btn is-ripples btn--blue d-flex align-center flare"><span>LOGIN</span></a>
                     @endauth
                 </div>
             </div>
@@ -464,13 +464,13 @@ $snow = 0;
             <div class="wrapper d-flex align-center justify-space-between flex-wrap">
                 <nav class="footer__links d-flex align-center">
                     <li class="footer__link">
-                        <a href="#" onclick="load('terms')">Соглашение</a>
+                        <a href="#" onclick="load('terms')">Agreement</a>
                     </li>
                     <li class="footer__link">
-                        <a href="#" onclick="load('policy')">Политика конфиденциальности</a>
+                        <a href="#" onclick="load('policy')">Privacy Policy</a>
                     </li>
                 </nav>
-                <div class="footer__text"><span>SO-YOU-START.RU — ALL RIGHTS RESERVED.</span></div>
+                <div class="footer__text"><span>GOLDENX CASINO — ALL RIGHTS RESERVED.</span></div>
             </div>
         </div>
         @include('layouts.chat')
@@ -481,16 +481,16 @@ $snow = 0;
         @guest
         <div class="popup popup--auth" style="max-width:350px">
             <div class="popup__title d-flex align-center justify-space-between">
-                <span>Авторизация</span>
+                <span>Authorization</span>
                 <a href="#" class="close d-flex align-center justify-center">
                     <svg class="icon"><use xlink:href="images/symbols.svg#close"></use></svg>
                 </a>
             </div>
             <div class="popup__content">
                 <div class="auth_blocks">
-                    <a href="/vk_auth" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>ВКОНТАКТЕ</span></a>
+                    <a href="/vk_auth" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>VKONTAKTE</span></a>
                     <a href="/google_auth" class="btn btn--red d-flex align-center justify-center is-ripples flare"><span>GOOGLE</span></a>
-                    <a href="/yandex_auth" class="btn btn--red d-flex align-center justify-center is-ripples flare"><span>ЯНДЕКС</span></a>
+                    <a href="/yandex_auth" class="btn btn--red d-flex align-center justify-center is-ripples flare"><span>YANDEX</span></a>
                     <a href="/tg_auth" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>TELEGRAM</span></a>
 
                 </div>
@@ -502,33 +502,33 @@ $snow = 0;
        
         <div class="popup popup--crash-info">
             <div class="popup__title d-flex align-center justify-space-between">
-                <span>Режим «Crash»</span>
+                <span>Crash Mode</span>
                 <a href="#" class="close d-flex align-center justify-center">
                     <svg class="icon"><use xlink:href="images/symbols.svg#close"></use></svg>
                 </a>
             </div>
             <div class="popup__content">
-                <p>Crash - онлайн игра, и как и все онлайн игры имеет недостатки, связанные с сетью</p>
+                <p>Crash is an online game, and like all online games has network-related issues</p>
                 <div class="text__borders"></div>
-                <p>Быстродействие выполнения ручного вывода (кнопка "Вывести деньги"), отображение графика на странице, напрямую зависят от следующих факторов:</p>
+                <p>The speed of manual withdrawal (the "Withdraw" button), the display of the graph on the page directly depends on the following factors:</p>
                 <ol class="show_ul">
-                    <li>Скорость Вашего интернет соединения</li>
-                    <li>Пинг до сервера (Latency / Задержка)</li>
-                    <li>Мощность смартфона или компьютера (используется для обработки данных графика и его показа)</li>
-                    <li>Время ответа от нашего сервера</li>
+                    <li>Your internet connection speed</li>
+                    <li>Ping to the server (Latency / Latency)</li>
+                    <li>The power of your smartphone or computer (is used to process graph data and display it)</li>
+                    <li>Response time from our server</li>
                 </ol>
 
 
                 <div class="text__borders"></div>
                 <p> 
-                    Сервис GOLDEN-X не гарантирует своевременного выполнения ручного вывода после нажатия (кнопка "Вывести деньги") и настоятельно рекомендует использовать функцию автоматического вывода средств (поле "Автовывод").
+                    GOLDEN-X service does not guarantee timely manual withdrawal after clicking (the "Withdraw" button) and strongly recommends using the automatic withdrawal function (the "Auto-withdraw" field).
                 </p>
                 <div class="text__borders"></div>
                 <p>
-                Функция "Автовывод" используется на стороне сервера, что снижает риск проблем, связанных с своевременным выводом, на 99.9%</p>
+                The "Auto-withdraw" function is used on the server side, which reduces the risk of problems related to timely withdrawal by 99.9%</p>
                 <br>
                 <div class="bx-input">
-                    <a onclick="localStorage.setItem('crashAgree', 'true');;$('.close').click()" class="btn btn--red d-flex align-center justify-center is-ripples flare"><span>Я ознакомлен. Закрыть</span></a>
+                    <a onclick="localStorage.setItem('crashAgree', 'true');;$('.close').click()" class="btn btn--red d-flex align-center justify-center is-ripples flare"><span>I understand. Close</span></a>
                 </div>
 
             </div>
@@ -540,7 +540,7 @@ $snow = 0;
                 <div class="popup__tabs d-flex align-center">
                     <div class="popup__tab popup__tab--active d-flex align-center">
                         <svg class="icon"><use xlink:href="images/symbols.svg#plus"></use></svg>
-                        <span>Пополнение демо баланса</span>
+                        <span>Demo Balance Top-up</span>
                     </div>
                     
                 </div>
@@ -557,7 +557,7 @@ $snow = 0;
                         <div class="wallet__content-top">
                            <div class="bx-input d-flex flex-column">
                             <div class="bx-input__input d-flex align-center justify-space-between">
-                                <label class="d-flex align-center">Сумма пополнения:</label>
+                                <label class="d-flex align-center">Top-up amount:</label>
                                 <div class="d-flex align-center">
                                     <input type="text" id="add_balance"  placeholder="0.00">
                                     <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg>
@@ -571,9 +571,9 @@ $snow = 0;
                         <div class="wallet__order d-flex justify-space-between align-center">
                             <div class="wallet__txt d-flex flex-column">
 
-                                <b class="d-flex align-center">Всего к оплате: <span class="d-flex align-center"><b class="">0</b> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span></b>
+                                <b class="d-flex align-center">Total to pay: <span class="d-flex align-center"><b class="">0</b> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span></b>
                             </div>
-                            <a onclick="addDemoBalance()" class="btn is-ripples flare btn--blue d-flex align-center"><span>ПОПОЛНИТЬ</span></a>
+                            <a onclick="addDemoBalance()" class="btn is-ripples flare btn--blue d-flex align-center"><span>TOP UP</span></a>
                         </div>
                     </div>
                 </div>
@@ -585,15 +585,15 @@ $snow = 0;
             <div class="popup__tabs d-flex align-center">
                 <div class="popup__tab popup__tab--active d-flex align-center">
                     <svg class="icon"><use xlink:href="images/symbols.svg#plus"></use></svg>
-                    <span>Пополнение</span>
+                    <span>Deposit</span>
                 </div>
                 <div class="popup__tab d-flex align-center">
                     <svg class="icon"><use xlink:href="images/symbols.svg#minus"></use></svg>
-                    <span>Вывод</span>
+                    <span>Withdraw</span>
                 </div>
                 <div class="popup__tab d-flex align-center">
                     <svg class="icon"><use xlink:href="images/symbols.svg#timer"></use></svg>
-                    <span>История</span>
+                    <span>History</span>
                 </div>
             </div>
             <a href="#" class="close d-flex align-center justify-center">
@@ -633,7 +633,7 @@ $snow = 0;
                     <div class="wallet__content-top">
                         <div class="bx-input d-flex flex-column">
                             <div class="bx-input__input d-flex align-center justify-space-between">                       
-                                    <input type="text" style="text-align: left;" id="sumDep" onkeyup="$('.payDep').html($('#sumDep').val())" placeholder="ВВЕДИТЕ СУММУ">
+                                    <input type="text" style="text-align: left;" id="sumDep" onkeyup="$('.payDep').html($('#sumDep').val())" placeholder="ENTER AMOUNT">
                                     <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg>
                             </div>
                         </div>
@@ -648,21 +648,21 @@ $snow = 0;
 
                         <div class="bx-input d-flex flex-column">
                             <div class="bx-input__input d-flex align-center justify-space-between">
-                                <input type="text" style="text-align: left;" id="promoDep" placeholder="ВВЕДИТЕ ПРОМОКОД">
+                                <input type="text" style="text-align: left;" id="promoDep" placeholder="ENTER PROMO CODE">
                             </div>
                         </div>
 
                         <div class="d-flex align-center justify-space-between">
-                            <div class="wallet__txt"><span class="d-flex align-center">Комиссия: 0%</span></div>
+                            <div class="wallet__txt"><span class="d-flex align-center">Commission: 0%</span></div>
                         </div>
                     </div>
                     <div class="wallet__content-bottom">
                         <div class="wallet__order d-flex justify-space-between align-center">
                             <div class="wallet__txt d-flex flex-column">
                                 
-                                <b class="d-flex align-center">Всего к оплате: <span class="d-flex align-center"><b class="payDep">0</b> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span></b>
+                                <b class="d-flex align-center">Total to pay: <span class="d-flex align-center"><b class="payDep">0</b> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span></b>
                             </div>
-                            <a onclick="disable(this);goDeposit(this)" class="btn is-ripples flare btn--blue d-flex align-center"><span>ПОПОЛНИТЬ</span></a>
+                            <a onclick="disable(this);goDeposit(this)" class="btn is-ripples flare btn--blue d-flex align-center"><span>TOP UP</span></a>
                         </div>
                     </div>
                 </div>
@@ -707,14 +707,14 @@ $snow = 0;
                     <div class="bx-input d-flex flex-column">
                         <div class="bx-input__input d-flex align-center justify-space-between">
                             
-                                <input type="text" style="text-align: left;" id="sum_withdraw" onkeyup="$('#sum_itog_pay').html($('#sum_withdraw').val());updateW()" placeholder="ВВЕДИТЕ СУММУ ВЫВОДА">
+                                <input type="text" style="text-align: left;" id="sum_withdraw" onkeyup="$('#sum_itog_pay').html($('#sum_withdraw').val());updateW()" placeholder="ENTER AMOUNT ВЫВОДА">
                                 <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg>
                             
                         </div>
                     </div>
                     <div class="bx-input d-flex flex-column">
                         <div class="bx-input__input d-flex align-center justify-space-between">
-                            <label class="d-flex align-center">Поступит на счёт:</label>
+                            <label class="d-flex align-center">Will be credited:</label>
                             <div class="d-flex align-center">
                                 <span class="bx-input__text" id="get_withdraw"></span>
                                 <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg>
@@ -724,7 +724,7 @@ $snow = 0;
                     <div class="bx-input d-flex flex-column">
                         <div class="bx-input__input d-flex align-center justify-space-between">
                             
-                                <input style="text-align: left;"  type="text" id="wallet_withdraw" placeholder="ВВЕДИТЕ РЕКВИЗИТЫ">
+                                <input style="text-align: left;"  type="text" id="wallet_withdraw" placeholder="ENTER DETAILS">
                             
                         </div>
                     </div>
@@ -732,14 +732,14 @@ $snow = 0;
                 <div class="wallet__content-bottom">
                     <div class="wallet__order d-flex justify-space-between align-center">
                         <div class="wallet__txt d-flex flex-column">
-                            <span class="d-flex align-center">Мин. вывод: &nbsp;<span id="min_sum_withdraws">50</span> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span>
-                            <b class="d-flex align-center">К выводу: <span class="d-flex align-center"><span class="sum_itog_pay" id="sum_itog_pay">100</span> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span></b>
+                            <span class="d-flex align-center">Min. withdrawal: &nbsp;<span id="min_sum_withdraws">50</span> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span>
+                            <b class="d-flex align-center">To withdraw: <span class="d-flex align-center"><span class="sum_itog_pay" id="sum_itog_pay">100</span> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span></b>
                         </div>
-                        <a onclick="disable(this);goWithdraw(this)" class="btn is-ripples flare btn--red d-flex align-center"><span>ВЫВЕСТИ</span></a>
+                        <a onclick="disable(this);goWithdraw(this)" class="btn is-ripples flare btn--red d-flex align-center"><span>WITHDRAW</span></a>
                     </div>
                     <div class="wallet__order d-flex justify-space-between align-center">
                         <div class="wallet__txt d-flex flex-column">
-                            <span class="d-flex align-center">Максимальный вывод с бонуса: &nbsp;<span>{{ in_array($u->status, [0, 1]) ? 300 : ($u->status == 2 ? 500 : ($u->status == 3 ? 600 : ($u->status == 4 ? 750 : ($u->status == 5 ? 1000 : 2000)))) }}</span> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span>
+                            <span class="d-flex align-center">Maximum bonus withdrawal: &nbsp;<span>{{ in_array($u->status, [0, 1]) ? 300 : ($u->status == 2 ? 500 : ($u->status == 3 ? 600 : ($u->status == 4 ? 750 : ($u->status == 5 ? 1000 : 2000)))) }}</span> <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg></span>
                         </div></div>
                     </div>
                 </div>
@@ -749,11 +749,11 @@ $snow = 0;
                 <div class="wallet__tabs d-flex align-center">
                     <div class="wallet__tab wallet__tab--active d-flex align-center">
                         <svg class="icon"><use xlink:href="images/symbols.svg#plus"></use></svg>
-                        <span>Пополнения</span>
+                        <span>Deposits</span>
                     </div>
                     <div class="wallet__tab d-flex align-center">
                         <svg class="icon"><use xlink:href="images/symbols.svg#minus"></use></svg>
-                        <span>Выводы</span>
+                        <span>Withdrawals</span>
                     </div>
                 </div>
                 <div class="wallet__history wallet__history--refill">
@@ -778,7 +778,7 @@ $snow = 0;
                         </div>
                     </div>
                     <div class="wallet__history-status @if($d->status == 0) warning @else success @endif">
-                        <span>@if($d->status == 0) Ожидание... @else Успешно @endif</span>
+                        <span>@if($d->status == 0) Pending... @else Success @endif</span>
                     </div>
                 </div>
 
@@ -810,7 +810,7 @@ $snow = 0;
                         </div>
                     </div>
                     <div id="statusW_{{$w->id}}" class="wallet__history-status  @if($w->status == 0) warning @elseif($w->status == 2) error @elseif($w->status == 1) success  @elseif($w->status == 3 || $w->status == 4) warning @else error @endif ">
-                        <span >@if($w->status == 0) Ожидание... (<a onclick="disable(this);canselWithdraw({{$w->id}}, this)">Отменить</a>)@elseif($w->status == 2) Отменен @elseif($w->status == 1) Успешно  @elseif($w->status == 3) Ожидает отправки @elseif($w->status == 4) Отправлен @else Ошибка @endif</span>
+                        <span >@if($w->status == 0) Pending... (<a onclick="disable(this);canselWithdraw({{$w->id}}, this)">Cancel</a>)@elseif($w->status == 2) Cancelled @elseif($w->status == 1) Success  @elseif($w->status == 3) Awaiting send @elseif($w->status == 4) Sent @else Error @endif</span>
                     </div>
                 </div>
 
@@ -831,7 +831,7 @@ $snow = 0;
         <div class="popup__tabs d-flex align-center">
             <div class="popup__tab popup__tab--active d-flex align-center">
                 <svg class="icon"><use xlink:href="images/symbols.svg#plus"></use></svg>
-                <span>Подкрутка кено</span>
+                <span>Keno adjustment</span>
             </div>
 
         </div>
@@ -848,21 +848,21 @@ $snow = 0;
                 <div class="wallet__content-top">
                     <div class="bx-input d-flex  align-stretch justify-space-between ">
                         <div class="bx-input__input d-flex align-center justify-space-between">
-                            <label class="d-flex align-center">Ч-1:</label>
+                            <label class="d-flex align-center">N-1:</label>
                             <div class="d-flex align-center">
                                 <input type="text" id="kenoGo1"   placeholder="0">
 
                             </div>
                         </div>
                         <div class="bx-input__input d-flex align-center justify-space-between">
-                            <label class="d-flex align-center">Ч-2:</label>
+                            <label class="d-flex align-center">N-2:</label>
                             <div class="d-flex align-center">
                                 <input type="text" id="kenoGo2"   placeholder="0">
 
                             </div>
                         </div>
                         <div class="bx-input__input d-flex align-center justify-space-between">
-                           <label class="d-flex align-center">Ч-3:</label>
+                           <label class="d-flex align-center">N-3:</label>
                            <div class="d-flex align-center">
                             <input type="text" id="kenoGo3"   placeholder="0">
 
@@ -873,14 +873,14 @@ $snow = 0;
 
                 <div class="bx-input d-flex  align-stretch justify-space-between ">
                     <div class="bx-input__input d-flex align-center justify-space-between">
-                        <label class="d-flex align-center">Ч-4:</label>
+                        <label class="d-flex align-center">N-4:</label>
                         <div class="d-flex align-center">
                             <input type="text" id="kenoGo4"   placeholder="0">
 
                         </div>
                     </div>
                     <div class="bx-input__input d-flex align-center justify-space-between">
-                        <label class="d-flex align-center">Ч-5:</label>
+                        <label class="d-flex align-center">N-5:</label>
                         <div class="d-flex align-center">
                             <input type="text" id="kenoGo5"   placeholder="0">
 
@@ -898,7 +898,7 @@ $snow = 0;
                     <div class="wallet__txt d-flex flex-column">
 
                     </div>
-                    <a onclick="kenoGo()" class="btn is-ripples flare btn--blue d-flex align-center"><span>Подкрутить</span></a>
+                    <a onclick="kenoGo()" class="btn is-ripples flare btn--blue d-flex align-center"><span>Adjust</span></a>
                 </div>
             </div>
 
@@ -914,7 +914,7 @@ $snow = 0;
                         </div>
                     </div>
                     <div class="bx-input__input d-flex align-center justify-space-between">
-                        <label class="d-flex align-center">Икс:</label>
+                        <label class="d-flex align-center">X value:</label>
                         <div class="d-flex align-center">
                             <input type="text" id="kenoBonusCoeff"   placeholder="0">
 
@@ -932,7 +932,7 @@ $snow = 0;
                     <div class="wallet__txt d-flex flex-column">
 
                     </div>
-                    <a onclick="kenoGoBonus()" class="btn is-ripples flare btn--blue d-flex align-center"><span>Подкрутить бонуску</span></a>
+                    <a onclick="kenoGoBonus()" class="btn is-ripples flare btn--blue d-flex align-center"><span>Adjust бонуску</span></a>
                 </div>
             </div>
 
@@ -956,7 +956,7 @@ $snow = 0;
 
             if(e.success){      
 
-                notification('success','Успешно')
+                notification('success','Success')
             }
             if(e.error){       
                 notification('error',e.error)
@@ -974,7 +974,7 @@ $snow = 0;
         }).then(e=>{
             if(e.success){     
 
-                notification('success','Успешно')
+                notification('success','Success')
             }
             if(e.error){       
                 notification('error',e.error)
@@ -996,7 +996,7 @@ $snow = 0;
         <div class="popup__tabs d-flex align-center">
             <div class="popup__tab popup__tab--active d-flex align-center">
                 <svg class="icon"><use xlink:href="images/symbols.svg#plus"></use></svg>
-                <span>Промокод</span>
+                <span>Promoкод</span>
             </div>
 
         </div>
@@ -1009,11 +1009,11 @@ $snow = 0;
             <div class="bx-input__input promocodeInput d-flex align-center justify-space-between">
                 
                 
-                    <input type="text" style="text-align: left;" id="promo_name" placeholder="ВВЕДИТЕ ПРОМОКОД">
+                    <input type="text" style="text-align: left;" id="promo_name" placeholder="ENTER PROMO CODE">
                     
             </div>
 
-            <a onclick="disable(this);actPromo(this)" class="btn is-ripples flare btn--blue d-flex align-center justify-center promocodeInputBtn"><span>Активировать</span></a>
+            <a onclick="disable(this);actPromo(this)" class="btn is-ripples flare btn--blue d-flex align-center justify-center promocodeInputBtn"><span>Activate</span></a>
 
             
         </div>
@@ -1039,7 +1039,7 @@ $snow = 0;
                         <svg class="icon money"><use xlink:href="images/symbols.svg#users"></use></svg>
                    
                 </div>
-                <a onclick="disable(this);createPromoUser(this)" style="height: 55px;" class="btn is-ripples flare btn--red d-flex align-center justify-center" ><span>Создать</span></a>
+                <a onclick="disable(this);createPromoUser(this)" style="height: 55px;" class="btn is-ripples flare btn--red d-flex align-center justify-center" ><span>Create</span></a>
             </div>
             
         </div>
@@ -1054,7 +1054,7 @@ $snow = 0;
             </div>
             <div class="popup__tab d-flex align-center" rel="popup" data-popup="popup--coupon">
                 <svg class="icon"><use xlink:href="images/symbols.svg#plus"></use></svg>
-                <span>Промокод</span>
+                <span>Promoкод</span>
             </div>
         </div>
         <a href="#" class="close d-flex align-center justify-center">
@@ -1071,7 +1071,7 @@ $snow = 0;
                     </div>
                 </div>
                 <div class="bx-input__input d-flex align-center justify-space-between">
-                    <label class="d-flex align-center">Сумма:</label>
+                    <label class="d-flex align-center">Amount:</label>
                     <div class="d-flex align-center">
                         <input type="text" placeholder="0.00">
                         <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg>
@@ -1090,7 +1090,7 @@ $snow = 0;
 </div>
 <div class="popup popup--promo-history">
     <div class="popup__title d-flex align-center justify-space-between">
-        <span>История промокодов</span>
+        <span>History промокодов</span>
         <a href="#" class="close d-flex align-center justify-center">
             <svg class="icon"><use xlink:href="images/symbols.svg#close"></use></svg>
         </a>
@@ -1106,7 +1106,7 @@ $snow = 0;
                     </div>
                 </div>
                 <div class="wallet__history-status">
-                    <span>Осталось: 3 активации</span>
+                    <span>Remaining: 3 активации</span>
                 </div>
             </div>
         </div>
@@ -1132,7 +1132,7 @@ $snow = 0;
 @endauth
 <div class="popup popup--refill popup--about">
     <div class="popup__title d-flex align-center justify-space-between">
-        <span>Пополнение</span>
+        <span>Deposit</span>
         <a href="#" class="close d-flex align-center justify-center">
             <svg class="icon"><use xlink:href="images/symbols.svg#close"></use></svg>
         </a>
@@ -1158,7 +1158,7 @@ $snow = 0;
         </div>
         <div class="bx-input">
             <div class="bx-input__input d-flex align-center justify-space-between">
-                <label class="d-flex align-center">Сумма перевода:</label>
+                <label class="d-flex align-center">Amount перевода:</label>
                 <div class="d-flex align-center">
                     <span class="bx-input__text" id="sum_pay" onclick="copyText('sum_pay')">100</span>
                     <svg class="icon money"><use xlink:href="images/symbols.svg#coins"></use></svg>
@@ -1181,7 +1181,7 @@ $snow = 0;
         document.execCommand("copy");
         $temp.remove();
 
-        notification('success', 'Скопировано!')
+        notification('success', 'Copied!')
     }
 </script>
 @if(\Auth::user() && (\Auth::user()->admin == 1 or \Auth::user()->admin == 2)) 
@@ -1226,7 +1226,7 @@ $snow = 0;
         </div>
         <div class="bx-input d-flex flex-column" id="type_ban_2" style="display: none;">
             <div class="bx-input__input d-flex align-center justify-space-between">
-                <label class="d-flex align-center">Время:</label>
+                <label class="d-flex align-center">Time:</label>
                 <div class="d-flex align-center">
                     <input type="datetime-local" id="time_chat_ban">
                 </div>
@@ -1334,7 +1334,7 @@ $snow = 0;
             <thead>
                 <tr>
                     <td>Название</td>
-                    <td>Депозит</td>
+                    <td>Deposit</td>
                     <td>Бонус</td>
                 </tr>
             </thead>
@@ -1419,7 +1419,7 @@ $snow = 0;
             </tbody>
         </table>
         <div class="borders"></div>
-        <p>Достижение - это уровень, для получения которого необходимо выполнить требования по общей сумме пополнений на сайте за все время. Требования для каждого достижения приведены выше. При получении нового достижения игроку выдается одноразовый бонус в размере, указанном в колонке "Бонус".</p>
+        <p>Достижение - это уровень, для получения которого необmoveимо выполнить требования по общей сумме пополнений на сайте за все время. Требования для каждого достижения приведены выше. При получении нового достижения игроку выдается одноразовый бонус в размере, указанном в колонке "Бонус".</p>
     </div>
 </div>
 <div class="popup popup--fair-dice" style="width: 375px;">
@@ -1798,7 +1798,7 @@ $snow = 0;
 
         $.post('/chat/delete',{_token: csrf_token, id}).then(e=>{
           if(e.success){
-            notification('success','Успешно')
+            notification('success','Success')
         }else{      
             notification('error',e.mess)
         }
@@ -1814,7 +1814,7 @@ $snow = 0;
         $.post('/chat/ban',{_token: csrf_token, id, why_ban, time_ban}).then(e=>{
 
           if(e.success){
-            notification('success','Успешно')
+            notification('success','Success')
         }else{    
             notification('error',e.mess)
         }

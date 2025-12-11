@@ -30,7 +30,7 @@ function shootBet(coeff) {
     var balanceUser = $('#balance').attr('balance')
 
     if(sumBetsCrazy + betSumShoot > balanceUser){
-        return notification('error', 'Недостаточно средств')
+        return notification('error', 'Insufficient funds')
     }
 
     sumBetsCrazy += betSumShoot
@@ -212,7 +212,7 @@ function startCashHuntGame(that){
             $('.cash-hunt__item:eq('+selectCashHuntId+')').addClass('cash-hunt__item--win');
             
             balanceUpdate(e.lastbalance, e.newbalance) 
-            notification('success', 'Вы выиграли '+e.winUser)
+            notification('success', 'You won '+e.winUser)
             
             setTimeout(() => {                
 
@@ -352,7 +352,7 @@ function getShootGame() {
 
 function infoPachinko(e){
     balanceUpdate(e[0], e[1]) 
-    notification('success', 'Вы выиграли '+e[2])
+    notification('success', 'You won '+e[2])
     setTimeout(() => {
 
         $('#tir').slideDown(500);
@@ -392,7 +392,7 @@ function selectCrazytime(number){
 
                 setTimeout(function() {
                     balanceUpdate(e.lastbalance, e.newbalance) 
-                    notification('success', 'Вы выиграли '+e.winUser)
+                    notification('success', 'You won '+e.winUser)
 
                     setTimeout(function() {
                         $('.crazygame__game-select').show();
@@ -508,7 +508,7 @@ function shootGame(that){
                 
                 if(e.type == 1){
                     balanceUpdate(e.lastbalance, e.newbalance) 
-                    notification('success', 'Вы выиграли '+e.winUser)
+                    notification('success', 'You won '+e.winUser)
                 }               
             }, 50)
 
@@ -611,7 +611,7 @@ function shootGame(that){
 
                                 setTimeout(() => {
                                     balanceUpdate(e.lastbalance, e.newbalance) 
-                                    notification('success', 'Вы выиграли '+e.winUser)
+                                    notification('success', 'You won '+e.winUser)
 
                                     $('#tir').slideDown(500);
                                     $('#coinflip').slideUp(500);

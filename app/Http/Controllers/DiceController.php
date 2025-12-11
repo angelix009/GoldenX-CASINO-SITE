@@ -29,7 +29,7 @@ class DiceController extends Controller
 	}
 
 	public function play(Request $r){
-		//return response(['error' => 'Произошла неизвестная ошибка. Обновите страницу']);
+		//return response(['error' => 'An unknown error occurred. Обновите страницу']);
 
 		$bet = $r->bet;
 		$percent = $r->percent;
@@ -40,7 +40,7 @@ class DiceController extends Controller
         $profit_game = \Cache::get('diceGame.profit') ?? 0;
 
 
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -51,7 +51,7 @@ class DiceController extends Controller
 			return response(['success' => false, 'mess' => 'Сумма ставки меньше 1' ]);
 		}
 		if($user->ban == 1){
-			return response(['error' => 'Произошла неизвестная ошибка']);
+			return response(['error' => 'An unknown error occurred']);
 		}
 		if(!is_numeric($bet)){
 			return response(['success' => false, 'mess' => 'Введите сумму ставки корректно' ]);
@@ -72,7 +72,7 @@ class DiceController extends Controller
 		$userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
 
 		if($userBalance < $bet){
-			return response(['success' => false, 'mess' => 'Недостаточно средств' ]);
+			return response(['success' => false, 'mess' => 'Insufficient funds' ]);
 		}
 
 		$numb = rand(0, 9999) / 100;
@@ -188,7 +188,7 @@ class DiceController extends Controller
 				'win' => round($win, 2)
 			);
 
-			$this->redis->publish('history', json_encode($callback));
+			if($this->redis) $this->redis->publish('history', json_encode($callback));
 			
 			$bets = \Cache::get('games');
 			$bets = json_decode($bets);
@@ -224,7 +224,7 @@ class DiceController extends Controller
 				'win' => 0
 			);
 
-			$this->redis->publish('history', json_encode($callback));
+			if($this->redis) $this->redis->publish('history', json_encode($callback));
 
 			$bets = \Cache::get('games');
 			$bets = json_decode($bets);

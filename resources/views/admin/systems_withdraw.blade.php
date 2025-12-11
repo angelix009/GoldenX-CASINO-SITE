@@ -23,11 +23,11 @@
                         <input type="" id="min_sum" class="form-control" name="">
                     </div>
                     <div class="col-lg mb-2">
-                        <label>Комиссия %</label>
+                        <label>Commission %</label>
                         <input type="" id="comm_percent" class="form-control" name="">
                     </div>
                     <div class="col-lg mb-2">
-                        <label>Комиссия руб</label>
+                        <label>Commission руб</label>
                         <input type="" id="comm_rub" class="form-control" name="">
                     </div>
                     <div class="col-lg mb-2">
@@ -41,7 +41,7 @@
                     
                     <div class="col-lg mb-2">
                         <label>Действие</label>
-                        <button onclick="addSystemWithdraw()" class="btn btn-info btn-block w-100">Добавить</button>
+                        <button onclick="addSystemWithdraw()" class="btn btn-info btn-block w-100">Add</button>
                     </div>
                 </div>
             </div>
@@ -58,11 +58,11 @@
                             <tr>
                                 <th scope="col">Название</th>
                                 <th scope="col">Мин. сумма</th>
-                                <th scope="col">Комиссия %</th>
-                                <th scope="col">Комиссия руб</th>
+                                <th scope="col">Commission %</th>
+                                <th scope="col">Commission руб</th>
                                 <th scope="col">Изображение</th>
                                 <th scope="col">Цвет</th>
-                                <th scope="col">Статус</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Действие</th>
                             </tr>
                         </thead>
@@ -85,7 +85,7 @@
                                     </select>
                                 </th>
                                 
-                                <th scope="col"><button onclick="saveSystemWithdraw({{$s->id}})" class="btn btn-info btn-sm me-2 mb-2">Сохранить</button><button onclick="deleteSystemWithdraw({{$s->id}})" class="btn btn-danger btn-sm">Удалить</button></th>
+                                <th scope="col"><button onclick="saveSystemWithdraw({{$s->id}})" class="btn btn-info btn-sm me-2 mb-2">Save</button><button onclick="deleteSystemWithdraw({{$s->id}})" class="btn btn-danger btn-sm">Delete</button></th>
                             </tr>
                             @endforeach
 

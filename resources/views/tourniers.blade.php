@@ -2,7 +2,7 @@
                 <div style="margin-top: 35px" class="tournier">
                     <div class="tournier__page-title d-flex justify-center align-center">
                         <div class="tournier__page-t-box d-flex flex-column align-center justify-center">
-                            <h4>Турниры</h4>
+                            <h4>Tournaments</h4>
                             <b>Показаны активные турниры</b>
                             <svg class="icon tournier__page-t-ico"><use xlink:href="images/symbols.svg?v=6#tournier"></use></svg>
                         </div>
@@ -32,11 +32,11 @@
                                     </div>
                                     <div class="tournier__item-bottom">
                                         <div class="tournier__stat d-flex flex-column align-center">
-                                            <h3>Призовой фонд</h3>
+                                            <h3>Prizeовой фонд</h3>
                                             <b>{{$t->prize}}</b>
                                         </div>
                                         <div class="tournier__stat d-flex flex-column align-center">
-                                            <h3>Призовых мест</h3>
+                                            <h3>Prizeовых мест</h3>
                                             <b>{{$t->places}}</b>
                                         </div>
                                         <div class="tournier__stat d-flex flex-column align-center">

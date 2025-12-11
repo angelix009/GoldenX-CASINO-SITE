@@ -32,7 +32,7 @@ class X100Controller extends Controller
 
         if (!in_array($color, $arr))
         {
-            return response(['success' => false, 'mess' => 'Ошибка']);
+            return response(['success' => false, 'mess' => 'Error']);
         }
 
         if (!$set->status_x100)
@@ -364,7 +364,7 @@ class X100Controller extends Controller
             $user->type_balance == 0 ? $user->balance += $win : $user->demo_balance += $win;
             $user->save();  
 
-            $this->redis->publish('updateBalance', json_encode($callback)); 
+            if($this->redis) $this->redis->publish('updateBalance', json_encode($callback)); 
 
         }
         $wheelLose = X100::where('coff', '!=', $wheelWinNumber)->get();
@@ -402,14 +402,14 @@ class X100Controller extends Controller
     public function bet(Request $r)
     {
 
-        //return response(['error' => 'Произошла неизвестная ошибка']);
+        //return response(['error' => 'An unknown error occurred']);
 
         $coff = $r->coff;
         $bet = round($r->bet, 2);
 
         $user = Auth::user();
         if($user->ban == 1){
-            return response(['error' => 'Произошла неизвестная ошибка']);
+            return response(['error' => 'An unknown error occurred']);
         }
         $setting = Setting::first();
         if($user->admin != 1){
@@ -420,7 +420,7 @@ class X100Controller extends Controller
             return response(['error' => 'Ставки закрыты, ждите следующий раунд']);
         }
 
-        if (\Cache::has('action.user.' . $user->id)) return response(['error' => 'Подождите 1 сек.']);
+        if (\Cache::has('action.user.' . $user->id)) return response(['error' => 'Wait 1 sec.']);
         \Cache::put('action.user.' . $user->id, '', 1);
 
         $balance = $user->balance;
@@ -454,7 +454,7 @@ class X100Controller extends Controller
 
         if ($bet > $userBalance)
         {
-            return response(['error' => 'Недостаточно средств']);
+            return response(['error' => 'Insufficient funds']);
         }
 
         $auto_wheel = $setting->auto_x100;
@@ -514,7 +514,7 @@ class X100Controller extends Controller
             $bank = X100::sum('bet');
             $callback = ['data' => ['user_id' => $user->id, 'coff' => $coff, 'img' => $user->avatar, 'login' => $user->name, 'bet' => round($bet, 2), 'players' => collect($info)->unique('user_id')
         ->count() , 'sumBets' => $info->sum('bet')]];
-            $this->redis->publish('x100Bet', json_encode($callback));
+            if($this->redis) $this->redis->publish('x100Bet', json_encode($callback));
         }else{
 
             $x100 = X100::where(['user_id' => $user->id, 'coff' => $coff])->first();
@@ -524,7 +524,7 @@ class X100Controller extends Controller
             $bank = X100::sum('bet');
             $callback = ['data' => ['user_id' => $user->id, 'coff' => $coff, 'img' => $user->avatar, 'login' => $user->name, 'bet' => round($x100->bet, 2), 'players' => collect($info)->unique('user_id')
         ->count() , 'sumBets' => $info->sum('bet')]];
-            $this->redis->publish('updateX100Bet', json_encode($callback));
+            if($this->redis) $this->redis->publish('updateX100Bet', json_encode($callback));
         }
 
         DB::commit();

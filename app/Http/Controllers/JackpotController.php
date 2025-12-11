@@ -147,7 +147,7 @@ class JackpotController extends Controller
 				Jackpot::where('user_id',$jackpot->user_id)->update(['chance'=>$chance]);
 			}
 		}
-		$this->redis->publish('jackpotUpdateChance', json_encode(collect(Jackpot::all())->unique('user_id')->sortBy('chance')->values()));
+		if($this->redis) $this->redis->publish('jackpotUpdateChance', json_encode(collect(Jackpot::all())->unique('user_id')->sortBy('chance')->values()));
 	}
 
 	public function cashHuntFinish(){
@@ -183,7 +183,7 @@ class JackpotController extends Controller
 		}
 
 		$info = collect(Jackpot::all())->unique('user_id')->values();
-		$this->redis->publish('jackpotUpdateBet', json_encode(array('info' => $info, 'jackpot' => Jackpot::all())));
+		if($this->redis) $this->redis->publish('jackpotUpdateBet', json_encode(array('info' => $info, 'jackpot' => Jackpot::all())));
 		$this->chance();
 	}
 
@@ -195,7 +195,7 @@ class JackpotController extends Controller
 
 		$id = round($request->id);
 
-		if (Auth::guest()) { return response(['error'=>'Авторизуйтесь!']); }
+		if (Auth::guest()) { return response(['error'=>'Please login!']); }
 		$user = Auth::user();
 		if(Setting::first()->status_jackpot != 2) return response(['error'=>'Бонусная игра не началась или закончилась!']);
 		$count = Jackpot::where('user_id', $user->id)->count();
@@ -203,7 +203,7 @@ class JackpotController extends Controller
 			return response(['error'=>'Вы не учавствуете в этой игре']); 
 		}
 		if($id < 1 or $id > 64){
-			return response(['error'=>'Ошибка']); 
+			return response(['error'=>'Error']); 
 		}
 
 		$sumBet = Jackpot::where('user_id', $user->id)->sum('bet');
@@ -253,19 +253,19 @@ class JackpotController extends Controller
 	}
 	public function bet(Request $request){
 		$bet = $request->bet;
-		// return response(['error' => 'Произошла неизвестная ошибка']);
+		// return response(['error' => 'An unknown error occurred']);
 
-		if (Auth::guest()) { return response(['error'=>'Авторизуйтесь!']); }
+		if (Auth::guest()) { return response(['error'=>'Please login!']); }
 		$user = Auth::user();
 
 if($user->ban == 1){
-return response(['error' => 'Произошла неизвестная ошибка']);
+return response(['error' => 'An unknown error occurred']);
 }
-		if(Setting::first()->status_jackpot) return response(['error'=>'Игра началась или закончилась!']);
+		if(Setting::first()->status_jackpot) return response(['error'=>'Game started или закончилась!']);
 		if(Jackpot::where(['user_id'=>$user->id])->count() >= 3) return response(['error'=>'Максимум 3 ставки в раунде']);
 		if($bet < 1) return response(['error'=>'Минимальная ставка 1 монета']);
 		if($bet > 10000) return response(['error'=>'Максимальная ставка 10000 монет']);
-		if($bet > $user->balance) return response(['error'=>'Недостаточно средств']);
+		if($bet > $user->balance) return response(['error'=>'Insufficient funds']);
 		if($user->deps < 99) return response(['error' => 'Для того чтобы сделать ставку вы должны иметь минимальную сумму пополнений - 99р ']);
 		$jackpot = Jackpot::all();
 		if(!$jackpot->count()){
@@ -305,7 +305,7 @@ return response(['error' => 'Произошла неизвестная ошиб�
 				'chance'=>$jackpot->chance,
 			],
 		];
-		$this->redis->publish('jackpotBet', json_encode($callback));
+		if($this->redis) $this->redis->publish('jackpotBet', json_encode($callback));
 
 		$setting = Setting::first();
 		$setting->jackpot_bank += ($bet * 0.9);
@@ -313,7 +313,7 @@ return response(['error' => 'Произошла неизвестная ошиб�
 		return response(
 			[
 				'sumBetUser' => Jackpot::where('user_id',$user->id)->sum('bet'),
-				'success'=>'Ставка принята',
+				'success'=>'Bet accepted',
 				'newbalance'=>$user->balance,
 				'lastbalance' => $user->balance + $bet
 			]

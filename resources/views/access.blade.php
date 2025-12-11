@@ -35,6 +35,6 @@
 
 
 <center>
-	<span class="text-secondary" style="font-size: 20px;font-weight: 600;">Загрузка...</span>
+	<span class="text-secondary" style="font-size: 20px;font-weight: 600;">Loading...</span>
 </center>
 

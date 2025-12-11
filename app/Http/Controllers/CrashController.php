@@ -24,24 +24,23 @@ public function boom(Request $request) {
 
     $user = Auth::user();
     if(!$user){
-       return response(['error'=>'Авторизуйтесь']);
+       return response(['error'=>'Please login']);
    }
 
-   if(Setting::first()->crash_status != 3)  return response(['error'=>'Игра закончилась или началась']);
+   if(Setting::first()->crash_status != 3)  return response(['error'=>'Game ended or started']);
 
-   $client = new Client(new Version2X('https://localhost:2083', [
+   $client = new Client(new Version2X('http://localhost:2083', [
     'headers' => [
         'X-My-Header: websocket rocks',
         'Authorization: Bearer 12b3c4d5e6f7g8h9i'
-    ],
-    'context' => ['ssl' => ['verify_peer_name' =>false, 'verify_peer' => false]]
+    ]
 ]));
 
    $client->initialize();
    $client->emit('boomCrash', ['boom' => '1']);
    $client->close();
 
-   return response(['success' => true, 'mess' => 'Успешно' ]);
+   return response(['success' => true, 'mess' => 'Success' ]);
 
 }
 
@@ -73,7 +72,7 @@ public function bet(Request $request){
     $bet = $request->bet;
     $auto = $request->auto;
 
-    if(!$user) return response(['error'=>'Авторизуйтесь']);
+    if(!$user) return response(['error'=>'Please login']);
 
     if($user->admin != 1){ 
         // return response(['error'=>'Тех работы']);
@@ -81,15 +80,15 @@ public function bet(Request $request){
 
     
 
-    if(Setting::first()->crash_status)  return response(['error'=>'Игра закончилась или началась']);
-    if($bet < 1) return response(['error'=>'Минимальная сумма ставки 1']);
-    if($bet > 10000) return response(['error'=>'Максимальная сумма ставки 10000']);
-    if($auto < 1.1) return response(['error'=>'Автовывод от 1.1']);
+    if(Setting::first()->crash_status)  return response(['error'=>'Game ended or started']);
+    if($bet < 1) return response(['error'=>'Minimum bet 1']);
+    if($bet > 10000) return response(['error'=>'Maximum bet 10000']);
+    if($auto < 1.1) return response(['error'=>'Auto-withdraw from 1.1']);
 
     $userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
 
-    if($userBalance < $bet) return response(['error'=>'Недостаточно средств']);
-    if(Crash::where(['user_id'=>$user->id])->count() >= 1) return response(['error'=>'Максимум 1 ставка в раунде']);
+    if($userBalance < $bet) return response(['error'=>'Insufficient funds']);
+    if(Crash::where(['user_id'=>$user->id])->count() >= 1) return response(['error'=>'Maximum 1 bet per round']);
 
 
 
@@ -114,14 +113,18 @@ public function bet(Request $request){
     $newbalance = $userBalance - $bet;
 
     // $user->balance -= $bet;
-    $user->type_balance == 0 ? $user->balance -= $bet : $user->demo_balance -= $bet;
-    $user->sum_bet += $bet;
+    if ($user->type_balance == 0) {
+        $user->balance = floatval($user->balance) - $bet;
+    } else {
+        $user->demo_balance = floatval($user->demo_balance) - $bet;
+    }
+    $user->sum_bet = floatval($user->sum_bet) + $bet;
     $user->save();
     if ($user->type_balance == 1){
         $set->youtube_crash = 1;
     }else{
-        $set->crash_bank += ($bet * 0.9);
-        $set->crash_profit += ($bet * 0.1);
+        $set->crash_bank = floatval($set->crash_bank) + ($bet * 0.9);
+        $set->crash_profit = floatval($set->crash_profit) + ($bet * 0.1);
     }
 
     if($set->crash_bank < 0){
@@ -147,8 +150,8 @@ public function bet(Request $request){
         'img'=>$user->avatar,
         'login'=>$user->name,
     ];
-    $this->redis->publish('crashBet', json_encode($callback));
-    return response(['success'=>'Ставка принята', 'lastbalance' => $lastbalance, 'newbalance' => $newbalance]);
+    if($this->redis) $this->redis->publish('crashBet', json_encode($callback));
+    return response(['success'=>'Bet accepted', 'lastbalance' => $lastbalance, 'newbalance' => $newbalance]);
 }
 
 
@@ -214,7 +217,7 @@ public function winCrash(){
             // $user->type_balance == 0 ? $user->balance += $win : $user->demo_balance += $win;
             $user->save();  
 
-            // $this->redis->publish('updateBalance', json_encode($callback)); 
+            // if($this->redis) $this->redis->publish('updateBalance', json_encode($callback)); 
 
 
 
@@ -226,33 +229,32 @@ public function winCrash(){
 }
 
 public function give(Request $request){
-    //return response(['error' => 'Произошла неизвестная ошибка. Обновите страницу']);
+    //return response(['error' => 'An unknown error occurred. Обновите страницу']);
     $user = Auth::user();
     if(!$user){
-       return response(['error'=>'Авторизуйтесь']);
+       return response(['error'=>'Please login']);
    }
 
-   if(Setting::first()->crash_status != 3)  return response(['error'=>'Игра закончилась или началась']);
+   if(Setting::first()->crash_status != 3)  return response(['error'=>'Game ended or started']);
 
    $my_crash_c = Crash::where('user_id', $user->id)->count();
    if($my_crash_c == 0){
-    return response(['error'=>'У вас нет активной ставки']);
+    return response(['error'=>'You have no active bet']);
 }
 
 $my_crash = Crash::where('user_id', $user->id)->first();
 if ($my_crash->result != 0){
-    return response(['error'=>'Вы уже забирали']);
+    return response(['error'=>'You already collected']);
 }
 
 $id_game = $my_crash->id;
 
 
-$client = new Client(new Version2X('https://localhost:2083', [
+$client = new Client(new Version2X('http://localhost:2083', [
     'headers' => [
         'X-My-Header: websocket rocks',
         'Authorization: Bearer 12b3c4d5e6f7g8h9i'
-    ],
-    'context' => ['ssl' => ['verify_peer_name' =>false, 'verify_peer' => false]]
+    ]
 ]));
 
 $client->initialize();
@@ -278,13 +280,13 @@ $client->close();
     //     'win'=>$res,
     // ];
 
-    // $this->redis->publish('crashGive', json_encode($callback));
+    // if($this->redis) $this->redis->publish('crashGive', json_encode($callback));
 
 
     // Crash::where('user_id', $user->id)->update(['result' => $res]);
 
 
-return response(['success'=>'Забираем...']);
+return response(['success'=>'Collecting...']);
 
 
 }

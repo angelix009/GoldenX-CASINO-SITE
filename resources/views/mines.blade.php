@@ -35,7 +35,7 @@
 			<div class="bx-input">
 				<input type="hidden" id="LevelMines" value="25"  name="">
 				<div class="bx-input__input d-flex justify-space-between align-center">
-					<label class="d-flex align-center">Уровень:</label>
+					<label class="d-flex align-center">Level:</label>
 					<div class="mines__bomb Level d-flex align-center">
 						<a  class="level_16" onclick="$('#LevelMines').val(16);$('.mines__bomb.Level a').removeClass('mines__bomb--active');$(this).addClass('mines__bomb--active');updateLevel()">1</a>
 						<a  class="mines__bomb--active level_25"  onclick="$('#LevelMines').val(25);$('.mines__bomb.Level a').removeClass('mines__bomb--active');$(this).addClass('mines__bomb--active');updateLevel()">2</a>
@@ -45,12 +45,12 @@
 				</div>
 			</div>
 			<div class="bx-input start_block_mine" style="display: none;">
-				<a  onclick="disable(this);startGameMineNew(this)" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>Начать игру</span></a>
+				<a  onclick="disable(this);startGameMineNew(this)" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>Start game</span></a>
 				
 			</div>
 			<div class="bx-input mines__buttons play_block_mine" style="display:none">
-				<a  onclick="disable(this);disable('.mines__path-item');finishGameMineNew(this)" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>Забрать <span id="winMine">0.00</span></span></a>
-				<a  onclick="disable(this);autoClickMineNew(this)" class="btn d-flex align-center justify-center is-ripples flare"><span>Авто-выбор</span></a>
+				<a  onclick="disable(this);disable('.mines__path-item');finishGameMineNew(this)" class="btn btn--blue d-flex align-center justify-center is-ripples flare"><span>Collect <span id="winMine">0.00</span></span></a>
+				<a  onclick="disable(this);autoClickMineNew(this)" class="btn d-flex align-center justify-center is-ripples flare"><span>Auto-выбор</span></a>
 			</div>
 			<div class="bx-input">
 				<div class="mines__x">

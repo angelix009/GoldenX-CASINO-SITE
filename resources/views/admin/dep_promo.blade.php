@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-lg-3">
 						<label>Дейсвтие</label>
-						<button onclick="createDepPromo()" class="btn btn-info btn-block w-100">Создать промокод</button>
+						<button onclick="createDepPromo()" class="btn btn-info btn-block w-100">Create промокод</button>
 					</div>
 				</div>
 			</div>
@@ -50,7 +50,7 @@
 								<th scope="col">Название</th>
 								<th scope="col">Процент</th>
 								<th scope="col">Активаций</th>
-								<th scope="col">Дата</th>
+								<th scope="col">Date</th>
 								<th scope="col">Действия</th>
 							</tr>
 						</thead>
@@ -64,7 +64,7 @@
 								<td>{{number_format($p->percent, 2, ',', ' ')}}</td>
 								<th scope="row">{{$p->actived}} / {{$p->active}}</th>
 								<td>{{date('d.m.y в H:i:s', strtotime($p->created_at))}}</td>
-								<th scope="col"><button onclick="deleteDepPromo({{$p->id}})" class="btn btn-danger btn-sm">Удалить</button></th>
+								<th scope="col"><button onclick="deleteDepPromo({{$p->id}})" class="btn btn-danger btn-sm">Delete</button></th>
 								
 							</tr>
 							@endforeach

@@ -15,13 +15,13 @@ class CoinController extends Controller
         $bank_game = \Cache::get('coinGame.bank') ?? 200;
         $profit_game = \Cache::get('coinGame.profit') ?? 0;
 
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = Auth::user();
 
         $games_on = 0;
         if(\Cache::has('coinGame.user.'. $user->id.'start')) $games_on = \Cache::get('coinGame.user.'. $user->id.'start');
-        if($games_on == 0) return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+        if($games_on == 0) return response(['success' => false, 'mess' => 'An unknown error occurred']);
 
         // $game = Coin::where('user_id', $user->id)->first();
         $cache_gameCoin = \Cache::get('coinGame.user.'. $user->id.'game');
@@ -89,7 +89,7 @@ class CoinController extends Controller
             'win' => round($win, 2)
         );
 
-        $this->redis->publish('history', json_encode($callback));
+        if($this->redis) $this->redis->publish('history', json_encode($callback));
 
         $bets = \Cache::get('games');
         $bets = json_decode($bets);
@@ -106,18 +106,18 @@ class CoinController extends Controller
 
         // $game->delete();
 
-        return response(['success' => 'Вы выиграли '.round($win, 2), 'lastbalance' => $lastbalance, 'newbalance' => $newbalance, 'coeffBonusCoin'=>$coeffBonusCoin]);
+        return response(['success' => 'You won '.round($win, 2), 'lastbalance' => $lastbalance, 'newbalance' => $newbalance, 'coeffBonusCoin'=>$coeffBonusCoin]);
     }
 
     public function play(Request $r){
-        //return response(['error' => 'Произошла неизвестная ошибка. Обновите страницу']);
+        //return response(['error' => 'An unknown error occurred. Обновите страницу']);
         $bank_game = \Cache::get('coinGame.bank') ?? 200;
         $profit_game = \Cache::get('coinGame.profit') ?? 0;
 
         // return response(['success' => false, 'mess' => 'Время работать :)']);
         $type = $r->type;
 
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -126,7 +126,7 @@ class CoinController extends Controller
             $games_on = \Cache::get('coinGame.user.'. $user->id.'start');
         }
         if($games_on == 0){
-            return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+            return response(['success' => false, 'mess' => 'An unknown error occurred']);
         }
         // $game = Coin::where('user_id', $user->id)->first();
 
@@ -249,7 +249,7 @@ class CoinController extends Controller
                 'win' => 0
             );
 
-            $this->redis->publish('history', json_encode($callback));
+            if($this->redis) $this->redis->publish('history', json_encode($callback));
 
             $bets = \Cache::get('games');
             $bets = json_decode($bets);
@@ -274,7 +274,7 @@ class CoinController extends Controller
 
     }
     public function get(){
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -283,7 +283,7 @@ class CoinController extends Controller
             $games_on = \Cache::get('coinGame.user.'. $user->id.'start');
         }
         if($games_on == 0){
-            return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+            return response(['success' => false, 'mess' => 'An unknown error occurred']);
         }
         // $game = Coin::where('user_id', $user->id)->first();
 
@@ -297,14 +297,14 @@ class CoinController extends Controller
         $profit_game = \Cache::get('coinGame.profit') ?? 0;
 
         $bet = $r->bet;
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
         if($user->ban == 1){
-            return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+            return response(['success' => false, 'mess' => 'An unknown error occurred']);
         }
-        if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Подождите 1 сек.']);
+        if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Wait 1 sec.']);
         \Cache::put('action.user.' . $user->id, '', 1);
 
         $games_on = 0;
@@ -313,14 +313,14 @@ class CoinController extends Controller
         }
 
         if($games_on > 0){
-            return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+            return response(['success' => false, 'mess' => 'An unknown error occurred']);
         }
 
-        if($bet < 1) return response(['error'=>'Минимальная сумма ставки 1']);
+        if($bet < 1) return response(['error'=>'Minimum bet 1']);
 
         $userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
 
-        if($userBalance < $bet) return response(['error'=>'Недостаточно средств']);
+        if($userBalance < $bet) return response(['error'=>'Insufficient funds']);
 
         if(!(\Cache::has('user.'.$user->id.'.historyBalance'))){ \Cache::put('user.'.$user->id.'.historyBalance', '[]'); }
 
@@ -402,6 +402,6 @@ class CoinController extends Controller
 
         \Cache::put('coinGame.user.'. $user->id.'game', json_encode($coin));
 
-        return response(['success'=>'Игра началась!', 'coeffBonusCoin'=>$coeffBonusCoin, 'bonusCoin' => $ikses, 'bonus' => $bonus,  'lastbalance' => $lastbalance, 'newbalance' => $newbalance]);
+        return response(['success'=>'Game started!', 'coeffBonusCoin'=>$coeffBonusCoin, 'bonusCoin' => $ikses, 'bonus' => $bonus,  'lastbalance' => $lastbalance, 'newbalance' => $newbalance]);
     }
 }

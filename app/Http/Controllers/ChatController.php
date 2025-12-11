@@ -93,11 +93,11 @@ class ChatController extends Controller
   public function delete(Request $r){
     $id = $r->id;
 
-    if($this->user->admin == 0) return response(['success' => false, 'mess' => 'Ошибка']);
+    if($this->user->admin == 0) return response(['success' => false, 'mess' => 'Error']);
 
     Message::where('id', $id)->update(['hidden' => 1]);
 
-    $this->redis->publish('mess', json_encode(['type' => 'deleteMess', 'id' => $id]));
+    if($this->redis) $this->redis->publish('mess', json_encode(['type' => 'deleteMess', 'id' => $id]));
     return response(['success' => true]);
   }
 
@@ -106,7 +106,7 @@ class ChatController extends Controller
     $time_ban = $r->time_ban;
     $why_ban = $r->why_ban;
 
-    if($this->user->admin == 0) return response(['success'=> false, 'mess' => 'Ошибка']);
+    if($this->user->admin == 0) return response(['success'=> false, 'mess' => 'Error']);
     if($why_ban == 0) return response(['success' => false, 'mess' => 'Укажите причину бана']);
    
     $m = Message::where('id', $id)->first();
@@ -121,13 +121,13 @@ class ChatController extends Controller
 
     if($time_chat_ban > $now) return response(['success'=>false,'mess'=>'Пользователь уже забанен']);
     if($chat_ban == 1) return response(['success'=>false,'mess'=>'Пользователь уже забанен']);
-    if($admin != 0) return response(['success'=>false,'mess'=>'Ошибка']);
-    if($this->user->id == $user_id) return response(['success'=>false,'mess'=>'Ошибка']);
+    if($admin != 0) return response(['success'=>false,'mess'=>'Error']);
+    if($this->user->id == $user_id) return response(['success'=>false,'mess'=>'Error']);
 
     $mess = Message::where('id', $id)->select('autor')->first();
     $autor = $mess->autor;
 
-    $this->redis->publish('mess', json_encode(['type' => 'deleteMess', 'id' => $id]));
+    if($this->redis) $this->redis->publish('mess', json_encode(['type' => 'deleteMess', 'id' => $id]));
     
     if($time_ban == '') {
       $info_user->chat_ban = 1;
@@ -170,7 +170,7 @@ class ChatController extends Controller
 
     Message::where('id', $id)->update(['hidden' => 1]);
 
-    $this->redis->publish('mess', json_encode($callback));
+    if($this->redis) $this->redis->publish('mess', json_encode($callback));
     return response(['success' => 'success']);
   }
 
@@ -213,16 +213,16 @@ class ChatController extends Controller
       'time' => date('H:i')
     ];
 
-    $this->redis->publish('mess', json_encode($callback));
-    return response(['success' => true, 'mess' => 'Успешно' ]);
+    if($this->redis) $this->redis->publish('mess', json_encode($callback));
+    return response(['success' => true, 'mess' => 'Success' ]);
   }
 
   public function sendSticker(Request $request){
     $sticker = $request->sticker;
     $stickers = range(1, 21);
 
-    if(!in_array($sticker, $stickers)) return response(['success' => false, 'mess' => 'Ошибка']);
-    if(Auth::guest()) return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);
+    if(!in_array($sticker, $stickers)) return response(['success' => false, 'mess' => 'Error']);
+    if(Auth::guest()) return response(['success' => false, 'mess' => 'Please login' ]);
 
     if(\Cache::has('action.user.' . $this->user->id)) return response(['success' => false, 'mess' => 'Подождите 3 сек.']);
     \Cache::put('action.user.' . $this->user->id, '', 3);
@@ -287,15 +287,15 @@ class ChatController extends Controller
       'time' => date('H:i')
     ];
 
-    $this->redis->publish('mess', json_encode($callback));
-    return response(['success' => true, 'mess' => 'Успешно']);
+    if($this->redis) $this->redis->publish('mess', json_encode($callback));
+    return response(['success' => true, 'mess' => 'Success']);
   }
 
   public function postMessage(Request $request){
 
     $mess = htmlentities($request->message, ENT_QUOTES, 'UTF-8');
 
-    if(Auth::guest()) return response(['success' => false, 'mess' => 'Авторизуйтесь']);
+    if(Auth::guest()) return response(['success' => false, 'mess' => 'Please login']);
 
     if(\Cache::has('chat.user.' . $this->user->id)) return response(['success' => false, 'mess' => 'Подождите перед предыдущим действием!' ]);
     \Cache::put('chat.user.' . $this->user->id, '', 2);
@@ -331,8 +331,8 @@ class ChatController extends Controller
       if($mess == '/clear'){
         Message::truncate();
 
-        $this->redis->publish('mess', json_encode(['type' => "chat_clear"]));
-        return response(['success' => true, 'mess' => 'Успешно' ]);
+        if($this->redis) $this->redis->publish('mess', json_encode(['type' => "chat_clear"]));
+        return response(['success' => true, 'mess' => 'Success' ]);
       }
     }
 
@@ -398,7 +398,7 @@ class ChatController extends Controller
       'time' => date('H:i')
     ];
 
-    $this->redis->publish('mess', json_encode($callback));
-    return response(['success' => true, 'mess' => 'Успешно']);
+    if($this->redis) $this->redis->publish('mess', json_encode($callback));
+    return response(['success' => true, 'mess' => 'Success']);
   }
 }

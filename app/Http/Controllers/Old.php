@@ -27,7 +27,7 @@ class NewMinesController extends Controller
 	}
 
 	public function autoClick(){
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -38,7 +38,7 @@ class NewMinesController extends Controller
 
 		$games_on = MinesGame::where(['user_id' => $user->id, 'onOff' => 1])->count();
 		if($games_on == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		$click = json_decode($game->click);
@@ -51,7 +51,7 @@ class NewMinesController extends Controller
 				$i += 1;
 				$select = mt_rand(1,$level);
 				if($i > 25){ 
-					return response(['success' => false, 'mess' => 'Ошибка' ]);               
+					return response(['success' => false, 'mess' => 'Error' ]);               
 					break;
 				}
 			}
@@ -65,7 +65,7 @@ class NewMinesController extends Controller
 	public function click(Request $r){
 		$setting = Setting::first();
 		$mine = round($r->mine);
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -78,13 +78,13 @@ class NewMinesController extends Controller
 
 		$games_on = MinesGame::where(['user_id' => $user->id, 'onOff' => 1])->count();
 		if($games_on == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 		$click = json_decode($game->click);
 		$win = $game->win;
 		$level = $game->level;
 		if($mine < 1 or $mine > $level){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		$bet = $game->bet;
@@ -119,7 +119,7 @@ class NewMinesController extends Controller
 				'win' => 0
 			);
 
-			$this->redis->publish('history', json_encode($callback));
+			if($this->redis) $this->redis->publish('history', json_encode($callback));
 			
 			$bets = \Cache::get('games');
 			$bets = json_decode($bets);
@@ -189,7 +189,7 @@ class NewMinesController extends Controller
 						'win' => 0
 					);
 
-					$this->redis->publish('history', json_encode($callback));
+					if($this->redis) $this->redis->publish('history', json_encode($callback));
 
 					$bets = \Cache::get('games');
 					$bets = json_decode($bets);
@@ -232,7 +232,7 @@ class NewMinesController extends Controller
 	public function finish(){
 		$setting = Setting::first();
 
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -243,7 +243,7 @@ class NewMinesController extends Controller
 
 		$games_on = MinesGame::where(['user_id' => $user->id, 'onOff' => 1])->count();
 		if($games_on == 0){
-			return response(['success' => false, 'mess' => 'Ошибка' ]);
+			return response(['success' => false, 'mess' => 'Error' ]);
 		}
 
 		$step = $game->step;
@@ -303,7 +303,7 @@ class NewMinesController extends Controller
 			'win' => round($win, 2)
 		);
 
-		$this->redis->publish('history', json_encode($callback));
+		if($this->redis) $this->redis->publish('history', json_encode($callback));
 
 		$bets = \Cache::get('games');
 		$bets = json_decode($bets);
@@ -336,7 +336,7 @@ class NewMinesController extends Controller
 		$bet = $r->bet;
 		$bomb = $r->bomb; 
 		$level = $r->level;
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 
@@ -350,7 +350,7 @@ class NewMinesController extends Controller
 
         if (!in_array($level, $levels))
         {
-            return response(['success' => false, 'mess' => 'Ошибка']);
+            return response(['success' => false, 'mess' => 'Error']);
         }
 
 
@@ -371,7 +371,7 @@ class NewMinesController extends Controller
 		}
 
 		if($user->balance < $bet){
-			return response(['success' => false, 'mess' => 'Недостаточно средств' ]);
+			return response(['success' => false, 'mess' => 'Insufficient funds' ]);
 		}
 
 		

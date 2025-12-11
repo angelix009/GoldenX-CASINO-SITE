@@ -3,10 +3,10 @@
         <div class="faq__item">
             <div class="faq__item-heading d-flex align-center">
                 <b class="faq__item-question d-flex align-center justify-center">?</b>
-                <span>Что такое SO-YOU-START.RU?</span>
+                <span>Что такое GOLDENX CASINO?</span>
             </div>
             <div class="faq__item-body">
-                <p>SO-YOU-START.RU — сервис мгновенных игр.</p>
+                <p>GOLDENX CASINO — сервис мгновенных игр.</p>
             </div>
         </div>
         <div class="faq__item">
@@ -25,8 +25,8 @@
                 <span>Сколько по времени производится вывод?</span>
             </div>
             <div class="faq__item-body">
-                <p>Процесс выплаты занимает от 1 минут до 24 часов с момента создания заявки.  <br>
-                Иногда, он может задержаться до 2-х дней.</p>
+                <p>Процесс выплаты занимает от 1 minutes до 24 hours с момента создания заявки.  <br>
+                Иногда, он может задержаться до 2-х days.</p>
             </div>
         </div>
         <div class="faq__item">
@@ -35,7 +35,7 @@
                 <span>Какая минимальная сумма вывода?</span>
             </div>
             <div class="faq__item-body">
-                <p>Минимальная сумма вывода составляет 100Р.</p>
+                <p>Minimum amount вывода составляет 100Р.</p>
             </div>
         </div>
         <div class="faq__item">

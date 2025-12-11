@@ -94,7 +94,7 @@ function playDice() {
     $('#dice__result').addClass('dice__drum--' + result[Math.floor(Math.random()*result.length)]);
     $('#dice__play').hide();
     $('#dice__replay').show();
-    toastr["error"]("Вы проиграли 4 рубля!", "DICE")
+    toastr["error"]("You lost 4 рубля!", "DICE")
 }
 
 function newGame() {

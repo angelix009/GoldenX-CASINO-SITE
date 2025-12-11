@@ -359,7 +359,7 @@
 						<svg class="icon"><use xlink:href="/images/symbols.svg?v=2#arrow_right"></use></svg>
 					</div>
 					<div class="btn__content">
-						<span>Назад</span>
+						<span>Back</span>
 					</div>
 				</a>
 			</div>

@@ -102,7 +102,7 @@ class ShootController extends Controller
 
     public function start(Request $r)
     {
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -120,9 +120,9 @@ class ShootController extends Controller
         $sumBets = $sumBetCrazyX1 + $sumBetCrazyX2 + $sumBetCrazyX5 + $sumBetCrazyX10 + $sumBetCrazyCoinflip + $sumBetCrazyPachinko + $sumBetCrazyCashhunt + $sumBetCrazyCrazytime;
 
         if($user->ban == 1){
-            return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+            return response(['success' => false, 'mess' => 'An unknown error occurred']);
         }
-        if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Подождите 1 сек.']);
+        if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Wait 1 sec.']);
         \Cache::put('action.user.' . $user->id, '', 1);
 
 
@@ -133,17 +133,17 @@ class ShootController extends Controller
 
 
         if($games_on > 0){
-            return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+            return response(['success' => false, 'mess' => 'An unknown error occurred']);
         }
 
         if($sumBets < 1){
             return response(['success' => false, 'mess' => 'Сумма ставки меньше 1' ]);
         }
 
-        $userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
+        $userBalance = $user->type_balance == 0 ? floatval($user->balance) : floatval($user->demo_balance);
 
         if($userBalance < $sumBets){
-            return response(['success' => false, 'mess' => 'Недостаточно средств' ]);
+            return response(['success' => false, 'mess' => 'Insufficient funds' ]);
         }
 
 
@@ -167,9 +167,9 @@ class ShootController extends Controller
 
         $lastbalance = $userBalance;
 
-        $user->type_balance == 0 ? $user->balance -= $sumBets: $user->demo_balance -= $sumBets;
-        $user->sum_bet += $sumBets;
-        $user->sum_to_withdraw -= $sumBets;
+        $user->type_balance == 0 ? $user->balance = floatval($user->balance) - $sumBets : $user->demo_balance = floatval($user->demo_balance) - $sumBets;
+        $user->sum_bet = floatval($user->sum_bet) + $sumBets;
+        $user->sum_to_withdraw = floatval($user->sum_to_withdraw) - $sumBets;
         $user->save();
 
         $newbalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
@@ -196,10 +196,10 @@ class ShootController extends Controller
 
         if($user->type_balance == 0){
             $setting = Setting::first();
-            
-            $setting->shoot_bank += ($sumBets * 0.8);            
-            $setting->shoot_profit += ($sumBets * 0.2);
-            $setting->save();   
+
+            $setting->shoot_bank = floatval($setting->shoot_bank) + ($sumBets * 0.8);
+            $setting->shoot_profit = floatval($setting->shoot_profit) + ($sumBets * 0.2);
+            $setting->save();
         }
 
 
@@ -209,7 +209,7 @@ class ShootController extends Controller
 
     public function cashHuntGo(Request $r){
 
-        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+        if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
         $user = \Auth::user();
 
@@ -219,7 +219,7 @@ class ShootController extends Controller
             $games_on = \Cache::get('shootGame.user.'. $user->id.'start');
         }
         if($games_on == 0){
-            return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+            return response(['success' => false, 'mess' => 'An unknown error occurred']);
         }
 
         // $game = Shoot::where('user_id', $user->id)->first();
@@ -228,7 +228,7 @@ class ShootController extends Controller
         $game = json_decode($game);
 
         if($game->type != 4){
-            return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+            return response(['success' => false, 'mess' => 'An unknown error occurred']);
         }
 
         $selectCashHuntId = $r->selectCashHuntId;
@@ -236,7 +236,7 @@ class ShootController extends Controller
             return response(['success' => false, 'mess' => 'Выберите ячейку']);
         }
         if($selectCashHuntId < 0 || $selectCashHuntId > 107){
-            return response(['success' => false, 'mess' => 'Ошибка']);
+            return response(['success' => false, 'mess' => 'Error']);
         }
         
         $betsCrazy = json_decode($game->bets, true);
@@ -312,7 +312,7 @@ class ShootController extends Controller
 
             }
 
-            $userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
+            $userBalance = $user->type_balance == 0 ? floatval($user->balance) : floatval($user->demo_balance);
 
 
             if(!(\Cache::has('user.'.$user->id.'.historyBalance'))){ \Cache::put('user.'.$user->id.'.historyBalance', '[]'); }
@@ -341,7 +341,7 @@ class ShootController extends Controller
                 'win' => $winUser
             );
 
-            $this->redis->publish('history', json_encode($callback));
+            if($this->redis) $this->redis->publish('history', json_encode($callback));
 
             $bets = \Cache::get('games');
             $bets = json_decode($bets);
@@ -356,7 +356,7 @@ class ShootController extends Controller
             $lastbalance = $userBalance;
             $newbalance = $userBalance + $winUser;
 
-            $user->type_balance == 0 ? $user->balance += $winUser : $user->demo_balance += $winUser;
+            $user->type_balance == 0 ? $user->balance = floatval($user->balance) + $winUser : $user->demo_balance = floatval($user->demo_balance) + $winUser;
 
             $user->save();
 
@@ -369,8 +369,8 @@ class ShootController extends Controller
             if($user->type_balance == 0){
                 $setting = Setting::first();
 
-                $setting->shoot_bank -= $winUser; 
-                $setting->save();   
+                $setting->shoot_bank = floatval($setting->shoot_bank) - $winUser;
+                $setting->save();
             }
 
 
@@ -380,7 +380,7 @@ class ShootController extends Controller
 
         public function crazyStart(Request $r){
 
-            if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+            if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
             $user = \Auth::user();
 
@@ -392,7 +392,7 @@ class ShootController extends Controller
 
 
             if($games_on == 0){
-                return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+                return response(['success' => false, 'mess' => 'An unknown error occurred']);
             }
 
             // $game = Shoot::where('user_id', $user->id)->first();
@@ -401,13 +401,13 @@ class ShootController extends Controller
             $game = json_decode($game);
 
             if($game->type != 5){
-                return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+                return response(['success' => false, 'mess' => 'An unknown error occurred']);
             }
 
             $number = round($r->number);
 
             if($number < 1 || $number > 3){
-                return response(['success' => false, 'mess' => 'Ошибка']);
+                return response(['success' => false, 'mess' => 'Error']);
             }
 
             $coeffs = json_decode($game->crazyTimeGame, true)[0];
@@ -499,7 +499,7 @@ class ShootController extends Controller
 
             }
 
-            $userBalance = $user->type_balance == 0 ? $user->balance : $user->demo_balance;
+            $userBalance = $user->type_balance == 0 ? floatval($user->balance) : floatval($user->demo_balance);
 
             if(!(\Cache::has('user.'.$user->id.'.historyBalance'))){ \Cache::put('user.'.$user->id.'.historyBalance', '[]'); }
 
@@ -520,7 +520,7 @@ class ShootController extends Controller
                 'win' => $winUser
             );
 
-            $this->redis->publish('history', json_encode($callback));
+            if($this->redis) $this->redis->publish('history', json_encode($callback));
 
             $bets = \Cache::get('games');
             $bets = json_decode($bets);
@@ -541,7 +541,7 @@ class ShootController extends Controller
             $lastbalance = $userBalance;
             $newbalance = $userBalance + $winUser;
 
-            $user->type_balance == 0 ? $user->balance += $winUser : $user->demo_balance += $winUser;
+            $user->type_balance == 0 ? $user->balance = floatval($user->balance) + $winUser : $user->demo_balance = floatval($user->demo_balance) + $winUser;
 
             $user->save();
 
@@ -553,8 +553,8 @@ class ShootController extends Controller
             if($user->type_balance == 0){
                 $setting = Setting::first();
 
-                $setting->shoot_bank -= $winUser; 
-                $setting->save();   
+                $setting->shoot_bank = floatval($setting->shoot_bank) - $winUser;
+                $setting->save();
             }
 
             return response(['success' => true, 'lastbalance' => $lastbalance, 'newbalance' => $newbalance, 'winUser' => $winUser, 'rotate' => $rotate, 'coeff_1' => $coeff_1, 'coeff_2' => $coeff_2, 'coeff_3' => $coeff_3]);
@@ -563,7 +563,7 @@ class ShootController extends Controller
 
 
         public function get(){
-            if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+            if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
             $user = \Auth::user();
 
@@ -573,7 +573,7 @@ class ShootController extends Controller
             }
 
             if($games_on == 0){
-                return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+                return response(['success' => false, 'mess' => 'An unknown error occurred']);
             }
 
             // $game = Shoot::where('user_id', $user->id)->first();
@@ -611,17 +611,17 @@ class ShootController extends Controller
 
         public function go(Request $r)
         {
-            //return response(['error' => 'Произошла неизвестная ошибка']);
+            //return response(['error' => 'An unknown error occurred']);
             $number = $r->number;
 
-            if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+            if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
             $user = \Auth::user();
 
             if($user->ban == 1){
-                return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+                return response(['success' => false, 'mess' => 'An unknown error occurred']);
             }
-        // if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Подождите 1 сек.']);
+        // if (\Cache::has('action.user.' . $user->id)) return response(['success' => false, 'mess' => 'Wait 1 sec.']);
             \Cache::put('action.user.' . $user->id, '', 1);
 
 
@@ -631,7 +631,7 @@ class ShootController extends Controller
             }
 
             if($games_on == 0){
-                return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+                return response(['success' => false, 'mess' => 'An unknown error occurred']);
             }
 
             // $game = Shoot::where('user_id', $user->id)->first();
@@ -640,7 +640,7 @@ class ShootController extends Controller
             $game = json_decode($game);
 
             if($game->type != 0){
-                return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+                return response(['success' => false, 'mess' => 'An unknown error occurred']);
             }
             $betsCrazy = json_decode($game->bets, true);
 
@@ -659,7 +659,7 @@ class ShootController extends Controller
             shuffle($crazyCoeffs);
 
             if($number > count($crazyCoeffs)){
-                return response(['success' => false, 'mess' => 'Произошла неизвестная ошибка']);
+                return response(['success' => false, 'mess' => 'An unknown error occurred']);
             }
             $shootDropu = 0;
             if($user->shootDrop != '0'){
@@ -970,7 +970,7 @@ class ShootController extends Controller
                     $lastbalance = $userBalance;
                     $newbalance = $userBalance + $winUser;
 
-                    $user->type_balance == 0 ? $user->balance += $winUser : $user->demo_balance += $winUser;
+                    $user->type_balance == 0 ? $user->balance = floatval($user->balance) + $winUser : $user->demo_balance = floatval($user->demo_balance) + $winUser;
 
                     $user->save();
 
@@ -998,7 +998,7 @@ class ShootController extends Controller
                         'win' => $winUser
                     );
 
-                    $this->redis->publish('history', json_encode($callback));
+                    if($this->redis) $this->redis->publish('history', json_encode($callback));
 
                     $bets = \Cache::get('games');
                     $bets = json_decode($bets);
@@ -1019,8 +1019,8 @@ class ShootController extends Controller
                     if($user->type_balance == 0){
                         $setting = Setting::first();
 
-                        $setting->shoot_bank -= $winUser; 
-                        $setting->save();   
+                        $setting->shoot_bank = floatval($setting->shoot_bank) - $winUser;
+                        $setting->save();
                     }
 
 
@@ -1155,7 +1155,7 @@ class ShootController extends Controller
                         $lastbalance = $userBalance;
                         $newbalance = $userBalance + $winUser;
 
-                        $user->type_balance == 0 ? $user->balance += $winUser : $user->demo_balance += $winUser;
+                        $user->type_balance == 0 ? $user->balance = floatval($user->balance) + $winUser : $user->demo_balance = floatval($user->demo_balance) + $winUser;
 
                         $user->save();
 
@@ -1173,7 +1173,7 @@ class ShootController extends Controller
                             'win' => $winUser
                         );
 
-                        $this->redis->publish('history', json_encode($callback));
+                        if($this->redis) $this->redis->publish('history', json_encode($callback));
 
                         $bets = \Cache::get('games');
                         $bets = json_decode($bets);
@@ -1204,8 +1204,8 @@ class ShootController extends Controller
                         if($user->type_balance == 0){
                             $setting = Setting::first();
 
-                            $setting->shoot_bank -= $winUser; 
-                            $setting->save();   
+                            $setting->shoot_bank = floatval($setting->shoot_bank) - $winUser;
+                            $setting->save();
                         }
 
 
@@ -1278,7 +1278,7 @@ class ShootController extends Controller
                 $lastbalance = $userBalance;
                 $newbalance = $userBalance + $winUser;
 
-                $user->type_balance == 0 ? $user->balance += $winUser : $user->demo_balance += $winUser;
+                $user->type_balance == 0 ? $user->balance = floatval($user->balance) + $winUser : $user->demo_balance = floatval($user->demo_balance) + $winUser;
 
                 $user->save();
 
@@ -1302,7 +1302,7 @@ class ShootController extends Controller
                             $tournier_table = TournierTable::where('user_id', $user->id)->first();
                             $tournier_table->scores += $winUser;
                             $tournier_table->save();
-                            
+
                         }
 
                     }
@@ -1327,7 +1327,7 @@ class ShootController extends Controller
                         'win' => $winUser
                     );
 
-                    $this->redis->publish('history', json_encode($callback));
+                    if($this->redis) $this->redis->publish('history', json_encode($callback));
 
                     $bets = \Cache::get('games');
                     $bets = json_decode($bets);
@@ -1348,8 +1348,8 @@ class ShootController extends Controller
                     if($user->type_balance == 0){
                         $setting = Setting::first();
 
-                        $setting->shoot_bank -= $winUser; 
-                        $setting->save();   
+                        $setting->shoot_bank = floatval($setting->shoot_bank) - $winUser;
+                        $setting->save();
                     }
 
                     $win = 1;
@@ -1365,7 +1365,7 @@ class ShootController extends Controller
                         'win' => 0
                     );
 
-                    $this->redis->publish('history', json_encode($callback));
+                    if($this->redis) $this->redis->publish('history', json_encode($callback));
 
                     $bets = \Cache::get('games');
                     $bets = json_decode($bets);

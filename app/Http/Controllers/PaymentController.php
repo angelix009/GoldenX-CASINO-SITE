@@ -55,12 +55,12 @@ class PaymentController extends Controller
 
 		$payment_count = Payment::where('transaction', $unique_id)->count();
 		if($payment_count == 0){
-			die('Ошибка');
+			die('Error');
 		}
 		$pay = Payment::where('transaction', $unique_id)->first();
 
 		if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 		
 		$percent = $pay->percent;
@@ -145,12 +145,12 @@ class PaymentController extends Controller
 
 		$payment_count = Payment::where('transaction', $unique_id)->count();
 		if($payment_count == 0){
-			die('Ошибка');
+			die('Error');
 		}
 		$pay = Payment::where('transaction', $unique_id)->first();
 
 		if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 		
 		$percent = $pay->percent;
@@ -227,12 +227,12 @@ class PaymentController extends Controller
 
 		$payment_count = Payment::where('transaction', $unique_id)->count();
 		if($payment_count == 0){
-			die('Ошибка');
+			die('Error');
 		}
 		$pay = Payment::where('transaction', $unique_id)->first();
 
 		if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 		
 		$percent = $pay->percent;
@@ -300,12 +300,12 @@ class PaymentController extends Controller
 
 		$payment_count = Payment::where('transaction', $unique_id)->count();
 		if($payment_count == 0){
-			die('Ошибка');
+			die('Error');
 		}
 		$pay = Payment::where('transaction', $unique_id)->first();
 
 		if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 		
 		$percent = $pay->percent;
@@ -377,12 +377,12 @@ class PaymentController extends Controller
 
 		$payment_count = Payment::where('transaction', $unique_id)->count();
 		if($payment_count == 0){
-			die('Ошибка');
+			die('Error');
 		}
 		$pay = Payment::where('transaction', $unique_id)->first();
 
 		if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 		
 		$percent = $pay->percent;
@@ -454,12 +454,12 @@ class PaymentController extends Controller
 
 		$payment_count = Payment::where('transaction', $unique_id)->count();
 		if($payment_count == 0){
-			die('Ошибка');
+			die('Error');
 		}
 		$pay = Payment::where('transaction', $unique_id)->first();
 
 		if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 		
 		$percent = $pay->percent;
@@ -528,12 +528,12 @@ class PaymentController extends Controller
 
 		$payment_count = Payment::where('transaction', $unique_id)->count();
 		if($payment_count == 0){
-			die('Ошибка');
+			die('Error');
 		}
 		$pay = Payment::where('transaction', $unique_id)->first();
 
 		if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 		
 		$percent = $pay->percent;
@@ -611,11 +611,11 @@ class PaymentController extends Controller
 
 		$payment_count = Payment::where('transaction', $unique_id)->count();
 		if($payment_count == 0){
-			die('Ошибка');
+			die('Error');
 		}
 		$pay = Payment::where('transaction', $unique_id)->first();
 		if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 
 		$pay->status = 1;
@@ -708,11 +708,11 @@ class PaymentController extends Controller
 		if ($sign == $my_sign){
 			$payment_count = Payment::where('transaction', $unique_id)->count();
 			if($payment_count == 0){
-				die('Ошибка');
+				die('Error');
 			}
 			$pay = Payment::where('transaction', $unique_id)->first();
 			if($pay->status == 1){
-			die('Ошибка');
+			die('Error');
 		}
 			$pay->status = 1;
 			
@@ -814,7 +814,7 @@ class PaymentController extends Controller
 			return response(['success' => false, 'mess' => 'Введите корректно сумму пополнения']);
 		}
 
-		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Авторизуйтесь' ]);}
+		if(\Auth::guest()){return response(['success' => false, 'mess' => 'Please login' ]);}
 
 		$user = \Auth::user();
 if($user->type_balance == 1){
@@ -822,10 +822,10 @@ if($user->type_balance == 1){
         }
 		$countSystemDep = SystemDep::where('id', $system)->count();
 		if($countSystemDep == 0){
-			return response(['success' => false, 'mess' => 'Ошибка']);
+			return response(['success' => false, 'mess' => 'Error']);
 		}
 
-		//if($user->admin == 3) return response(['success' => false, 'mess' => 'Ошибка']);
+		//if($user->admin == 3) return response(['success' => false, 'mess' => 'Error']);
 
 		$systemDep = SystemDep::where('id', $system)->first();
 		$minDep = $systemDep->min_sum;
